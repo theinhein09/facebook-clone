@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Searchbar } from "./searchbar";
 
 export function Navbar() {
   return (
@@ -16,6 +17,7 @@ export function Navbar() {
         <li role="menuitem" className="inline-block px-3 py-1">
           <Link to="/menu">Menu</Link>
         </li>
+        <Searchbar />
       </menu>
     </nav>
   );

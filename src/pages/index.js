@@ -50,7 +50,10 @@ function Feed({ feed }) {
 
   return (
     <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative">
-      <User user={feed.publisher} edited={feed.edited} />
+      <User
+        user={feed.publisher}
+        status={<span>8H , Public , {feed.edited && "Edited"}</span>}
+      />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full">
         <img src={feed.media} alt="feed" width={384} height={384} />

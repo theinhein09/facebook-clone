@@ -46,6 +46,18 @@ export class FS {
     return null;
   }
 
+  async getDocs(param) {
+    const q = query(
+      collection(db, this.collection),
+      where("username-sl", "==", param)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+  }
+
   async addDoc(data) {
     const ref = collection(db, this.collection);
     return await addDoc(ref, { ...data, timestamp: serverTimestamp() });
