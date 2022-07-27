@@ -3,6 +3,7 @@ import { Layout } from "../components/layout";
 import { FS } from "../firebase/firestore";
 import { User } from "../components/user";
 import { useUserContextState } from "../contexts/user-context";
+import { useBoolean } from "../hooks";
 
 const testFeeds = [
   {
@@ -34,10 +35,6 @@ export function Home() {
     return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    console.log(feeds);
-  }, [feeds]);
-
   return (
     <Layout>
       <CreatePost />
@@ -49,13 +46,47 @@ export function Home() {
 }
 
 function Feed({ feed }) {
+  const { user } = useUserContextState();
+  const [optionsMenu, { toggle: toggleOptionsMenu }] = useBoolean(false);
+  function handleOptions() {
+    toggleOptionsMenu();
+  }
+
+  function handleDelete() {
+    const feedsFS = new FS("feeds");
+    feedsFS.deleteDoc(feed.id);
+  }
   return (
-    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2">
+    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative">
       <User user={feed.publisher} />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full">
         <img src={feed.media} alt="feed" width={384} height={384} />
       </section>
+      {user.uid === feed.publisher.id ? (
+        <div role="presentation" className="absolute top-2 right-4">
+          <button onClick={handleOptions}>*</button>
+          <menu
+            className={`absolute bg-neutral-100 transition-all w-24 ${
+              optionsMenu ? "visible opacity-100" : "invisible opacity-0"
+            }`}
+          >
+            <li role="menuitem">
+              <button className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs">
+                Edit post
+              </button>
+            </li>
+            <li role="menuitem">
+              <button
+                onClick={handleDelete}
+                className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs"
+              >
+                Delete post
+              </button>
+            </li>
+          </menu>
+        </div>
+      ) : null}
     </article>
   );
 }
@@ -69,7 +100,7 @@ function CreatePost() {
   });
   const [type, setType] = useState("public");
 
-  function getSubscribers(type) {
+  function getSubscribers(type, subscribers) {
     switch (type) {
       case "public":
         return ["all"];
@@ -93,7 +124,7 @@ function CreatePost() {
     setType(target.value);
   }
 
-  async function handlePost(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const feedsFS = new FS("feeds");
     const feed = await feedsFS.addDoc({
@@ -137,7 +168,7 @@ function CreatePost() {
         <input
           type="submit"
           value="Post"
-          onClick={handlePost}
+          onClick={handleSubmit}
           className="bg-blue-300 hover:bg-blue-400 rounded-full shadow-md hover:shadow-lg px-5 py-1 text-sm text-white"
         />
       </section>

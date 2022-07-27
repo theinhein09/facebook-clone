@@ -1,6 +1,7 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -24,7 +25,7 @@ const fetchPublisher = (feeds) => {
     return {
       id: feed.id,
       ...feed.data(),
-      publisher: user.data(),
+      publisher: { id: user.id, ...user.data() },
     };
   });
   return Promise.all(promises);
@@ -76,6 +77,11 @@ export class FS {
         limit(3)
       );
     return query(ref);
+  }
+
+  async deleteDoc(id) {
+    const ref = doc(db, this.collection, id);
+    await deleteDoc(ref);
   }
 
   async getNextDocs(lastVisible, where) {
