@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export function Navbar() {
   return (
-    <nav className="shadow-md py-2 mb-2">
+    <nav className="shadow-md py-2 mb-2 text-sm">
       <menu className="mx-auto max-w-fit">
         <li role="menuitem" className="inline-block px-3 py-1">
           <Link to="/">Home</Link>
