@@ -28,7 +28,9 @@ export function Searchbar(params) {
         id="search-bar"
         value={username}
         onChange={handleChange}
-        className="bg-neutral-100 px-3 py-0.5 rounded-full"
+        placeholder="Search by username..."
+        autoComplete="username"
+        className="bg-neutral-100 px-3 py-0.5 rounded-full placeholder:text-xs placeholder:italic"
       />
       <SearchResults results={users} />
     </span>
