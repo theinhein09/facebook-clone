@@ -48,17 +48,36 @@ export function Home() {
 function Feed({ feed }) {
   const { user } = useUserContextState();
   const [optionsMenu, { toggle: toggleOptionsMenu }] = useBoolean(false);
+  const [feedEditor, { toggle: toggleFeedEditor }] = useBoolean(false);
+  const [editingFeed, setEditingFeed] = useState({ text: feed.text });
+
   function handleOptions() {
     toggleOptionsMenu();
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     const feedsFS = new FS("feeds");
-    feedsFS.deleteDoc(feed.id);
+    await feedsFS.deleteDoc(feed.id);
   }
+
+  function handleEdit() {
+    toggleFeedEditor();
+  }
+
+  function handleEditingFeedChange({ target }) {
+    setEditingFeed({ ...editingFeed, text: target.value });
+  }
+
+  async function handleEditingFeed() {
+    const feedsFS = new FS("feeds");
+    await feedsFS.updateDoc(feed.id, editingFeed);
+    toggleFeedEditor();
+    toggleOptionsMenu();
+  }
+
   return (
     <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative">
-      <User user={feed.publisher} />
+      <User user={feed.publisher} edited={feed.edited} />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full">
         <img src={feed.media} alt="feed" width={384} height={384} />
@@ -72,7 +91,10 @@ function Feed({ feed }) {
             }`}
           >
             <li role="menuitem">
-              <button className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs">
+              <button
+                onClick={handleEdit}
+                className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs"
+              >
                 Edit post
               </button>
             </li>
@@ -86,6 +108,25 @@ function Feed({ feed }) {
             </li>
           </menu>
         </div>
+      ) : null}
+
+      {feedEditor ? (
+        <>
+          <textarea
+            value={editingFeed.text}
+            onChange={handleEditingFeedChange}
+            className="resize-none w-full p-1 text-neutral-500"
+            rows={5}
+          />
+          <section className="text-right">
+            <button
+              onClick={handleEditingFeed}
+              className="text-sm shadow-md hover:shadow-lg bg-blue-400 hover:bg-blue-500 rounded-full px-4 py-1 text-white transition-all mr-1"
+            >
+              Update
+            </button>
+          </section>
+        </>
       ) : null}
     </article>
   );
@@ -131,10 +172,6 @@ function CreatePost() {
       ...post,
       subscribers: getSubscribers(type),
       publisher: curUser.id,
-    });
-    setPost({
-      text: "",
-      media: "https://source.unsplash.com/random",
     });
     console.log(feed);
   }

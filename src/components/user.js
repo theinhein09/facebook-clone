@@ -1,4 +1,4 @@
-export function User({ user }) {
+export function User({ user, edited }) {
   return (
     <section className="border-b-2 border-b-neutral-100 py-2">
       <span
@@ -15,7 +15,7 @@ export function User({ user }) {
       </span>
       <span className="inline-block text-sm font-light align-top pt-2">
         <h3 className="font-semibold leading-3">{user.username}</h3>
-        <span className="text-xs">8H , Public</span>
+        <span className="text-xs">8H , Public , {edited && "Edited"}</span>
       </span>
     </section>
   );

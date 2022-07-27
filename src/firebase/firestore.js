@@ -12,6 +12,7 @@ import {
   query,
   serverTimestamp,
   startAfter,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { auth } from "./authentication";
@@ -82,6 +83,15 @@ export class FS {
   async deleteDoc(id) {
     const ref = doc(db, this.collection, id);
     await deleteDoc(ref);
+  }
+
+  async updateDoc(id, data) {
+    const ref = doc(db, this.collection, id);
+    await updateDoc(ref, {
+      ...data,
+      timestamp: serverTimestamp(),
+      edited: true,
+    });
   }
 
   async getNextDocs(lastVisible, where) {
