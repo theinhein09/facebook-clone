@@ -31,6 +31,7 @@ export function Login() {
           name="email"
           type="email"
           value={email}
+          autoComplete="email"
           onChange={handleChange}
           className="bg-neutral-200 w-64 py-0.5 px-2 rounded mb-2"
         />
@@ -42,6 +43,7 @@ export function Login() {
           name="password"
           type="password"
           value={password}
+          autoComplete="current-password"
           onChange={handleChange}
           className="bg-neutral-200 w-64 py-0.5 px-2 rounded mb-4"
         />

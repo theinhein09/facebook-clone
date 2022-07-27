@@ -3,8 +3,8 @@ import { Login } from "./pages/login";
 import { Home } from "./pages";
 import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
-import Menu from "./pages/menu";
-import Notifications from "./pages/notifications";
+import { Menu } from "./pages/menu";
+import { Notifications } from "./pages/notifications";
 
 function App() {
   return (

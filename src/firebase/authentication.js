@@ -4,6 +4,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { app } from "./init";
 
@@ -31,5 +32,9 @@ export const auth = {
         loading.off();
       }
     });
+  },
+
+  async _signOut() {
+    await signOut(this._auth);
   },
 };
