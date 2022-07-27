@@ -1,3 +1,4 @@
+import { arrayRemove, arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { Layout } from "../components/layout";
 import { User } from "../components/user";
@@ -13,9 +14,17 @@ export function Friends() {
     usersFS.onSnapshot(setRequests, user.uid);
   }, [user.uid]);
 
-  useEffect(() => {
-    console.log(requests);
-  }, [requests]);
+  async function handleAccept(id) {
+    const usersFS = new FS("users");
+    usersFS.updateDoc(user.uid, {
+      subscribers: arrayUnion(id),
+      pendingRequests: arrayRemove(id),
+    });
+    usersFS.updateDoc(id, {
+      subscribers: arrayUnion(user.uid),
+    });
+  }
+
   return (
     <Layout>
       <main className="min-h-screen">
@@ -26,7 +35,10 @@ export function Friends() {
           <article className="bg-white max-w-fit mx-auto rounded shadow-lg ring-1 ring-neutral-50">
             <User user={request} />
             <section className="min-w-[320px] p-2 text-right">
-              <button className="bg-blue-500 px-4 py-1 text-sm font-medium text-white rounded shadow-md hover:shadow-lg hover:bg-blue-400 transition-all mr-2">
+              <button
+                onClick={() => handleAccept(request.id)}
+                className="bg-blue-500 px-4 py-1 text-sm font-medium text-white rounded shadow-md hover:shadow-lg hover:bg-blue-400 transition-all mr-2"
+              >
                 Accept
               </button>
               <button className="bg-neutral-200 px-4 py-1 text-sm font-medium text-neutral-600 rounded shadow-md hover:shadow-lg hover:bg-neutral-300 transition-all">
