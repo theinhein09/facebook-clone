@@ -66,8 +66,8 @@ function CreatePost() {
   const [post, setPost] = useState({
     text: "",
     media: "https://source.unsplash.com/random",
+    type: "public",
   });
-  const [type, setType] = useState("public");
 
   function getSubscribers(type, subscribers) {
     switch (type) {
@@ -89,23 +89,19 @@ function CreatePost() {
     fetchUser(user.uid);
   }, [user.uid]);
 
-  function handleType({ target }) {
-    setType(target.value);
-  }
-
   async function handleSubmit(event) {
     event.preventDefault();
     const feedsFS = new FS("feeds");
     const feed = await feedsFS.addDoc({
       ...post,
-      subscribers: getSubscribers(type),
+      subscribers: getSubscribers(post.type),
       publisher: curUser.id,
     });
     console.log(feed);
   }
 
-  function handleText({ target }) {
-    setPost({ ...post, text: target.value });
+  function handleChange({ target }) {
+    setPost({ ...post, [target.name]: target.value });
   }
 
   return (
@@ -113,7 +109,9 @@ function CreatePost() {
       <User user={curUser} />
       <section className="p-2">
         <textarea
-          onChange={handleText}
+          name="text"
+          value={post.text}
+          onChange={handleChange}
           className="min-w-full resize-none p-1 placeholder:italic placeholder:text-sm text-neutral-500"
           rows="5"
           placeholder="Write something on your mind..."
@@ -123,8 +121,8 @@ function CreatePost() {
         <select
           name="type"
           className="text-xs mr-2 rounded-full ring-1 ring-neutral-300 bg-neutral-200 px-1"
-          value={type}
-          onChange={handleType}
+          value={post.type}
+          onChange={handleChange}
         >
           <option value="public">Public</option>
           <option value="friends-only">Friends only</option>
