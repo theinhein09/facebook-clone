@@ -7,7 +7,7 @@ export function User({ user, status }) {
       >
         <img
           src={user.profileUrl}
-          alt="publisher"
+          alt="avatar"
           width={40}
           height={40}
           className="rounded-[100%] object-center aspect-square"

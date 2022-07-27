@@ -32,6 +32,17 @@ const fetchPublisher = (feeds) => {
   return Promise.all(promises);
 };
 
+function fetchUsers(ids) {
+  const promises = ids.map(async (id) => {
+    const user = await getDoc(doc(db, "users", id));
+    return {
+      id: user.id,
+      ...user.data(),
+    };
+  });
+  return Promise.all(promises);
+}
+
 export class FS {
   constructor(collection) {
     this.collection = collection;
@@ -63,16 +74,24 @@ export class FS {
     return await addDoc(ref, { ...data, timestamp: serverTimestamp() });
   }
 
-  onSnapshot(set) {
+  onSnapshot(set, docId) {
+    let unsubscribe;
     switch (this.collection) {
       case "feeds":
         const q = this.query("subscribers", "array-contains-any", [
           "all",
           auth._auth.currentUser.uid,
         ]);
-        const unsubscribe = onSnapshot(q, async (feeds) => {
+        unsubscribe = onSnapshot(q, async (feeds) => {
           const data = await fetchPublisher(feeds.docs);
           set(data);
+        });
+        return unsubscribe;
+      case "users":
+        const ref = doc(db, this.collection, docId);
+        unsubscribe = onSnapshot(ref, async (user) => {
+          const users = await fetchUsers(user.data().pendingRequests);
+          set(users);
         });
         return unsubscribe;
       default:
