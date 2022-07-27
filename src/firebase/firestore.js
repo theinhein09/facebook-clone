@@ -1,12 +1,16 @@
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
   limit,
   onSnapshot,
   orderBy,
   query,
+  serverTimestamp,
+  startAfter,
   where,
 } from "firebase/firestore";
 import { auth } from "./authentication";
@@ -29,6 +33,20 @@ const fetchPublisher = (feeds) => {
 export class FS {
   constructor(collection) {
     this.collection = collection;
+  }
+
+  async getDoc(id) {
+    const ref = doc(db, this.collection, id);
+    const docSnap = await getDoc(ref);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    }
+    return null;
+  }
+
+  async addDoc(data) {
+    const ref = collection(db, this.collection);
+    return await addDoc(ref, { ...data, timestamp: serverTimestamp() });
   }
 
   onSnapshot(set) {
@@ -58,5 +76,18 @@ export class FS {
         limit(3)
       );
     return query(ref);
+  }
+
+  async getNextDocs(lastVisible, where) {
+    const { prop, operator, value } = where;
+    const ref = collection(db, this.collection);
+    const q = query(
+      ref,
+      where(prop, operator, value),
+      orderBy("timestamp", "desc"),
+      startAfter(lastVisible),
+      limit(3)
+    );
+    await getDocs(q);
   }
 }
