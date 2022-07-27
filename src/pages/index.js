@@ -69,9 +69,13 @@ function Feed({ feed }) {
           <span>
             {renderFeedType(feed.type)}
             <BsDot className="text-2xl inline -mx-1" />
-            8H
-            <BsDot className="text-2xl inline -mx-1" />
-            {feed.edited && "Edited"}
+            <span className="font-medium text-neutral-400">8H</span>
+            {feed.edited && (
+              <>
+                <BsDot className="text-2xl inline -mx-1" />
+                <span className="font-medium text-neutral-400">Edited</span>
+              </>
+            )}
           </span>
         }
       />
