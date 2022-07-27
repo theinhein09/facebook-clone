@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FS } from "../firebase/firestore";
 import { User } from "./user";
 import { GoSearch } from "react-icons/go";
+import { Link } from "react-router-dom";
 export function Searchbar(params) {
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
@@ -38,12 +39,14 @@ export function Searchbar(params) {
 function SearchResults({ results }) {
   return (
     <aside
-      className={`absolute right-0 top-full mt-3 bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[300px] ${
+      className={`absolute right-0 top-full mt-3 bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[300px] transition-all ${
         results.length === 0 ? "invisible opacity-0" : "visible opacity-100"
       }`}
     >
       {results.map((result) => (
-        <User key={result.id} user={result} />
+        <Link key={result.id} to={`${result.id}`}>
+          <User user={result} />
+        </Link>
       ))}
     </aside>
   );

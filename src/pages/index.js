@@ -29,6 +29,16 @@ const testFeeds = [
   },
 ];
 
+const user = {
+  id: "232",
+  username: "alsdjfoas",
+  email: "aosdjfo@laf.cm",
+  profileUrl: "oasdjf",
+  subscribers: [this.id],
+  timestamp: "timestamp",
+  pendingRequests: [],
+};
+
 export function Home() {
   const [feeds, setFeeds] = useState(testFeeds);
 

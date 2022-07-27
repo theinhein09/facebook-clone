@@ -5,6 +5,7 @@ import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
 import { Menu } from "./pages/menu";
 import { Notifications } from "./pages/notifications";
+import { Profile } from "./pages/profile";
 
 function App() {
   return (
@@ -43,8 +44,15 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path=":userId"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
         </Route>
-
         <Route path="/login" element={<Login />} />
       </Routes>
     </BrowserRouter>
