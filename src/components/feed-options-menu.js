@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GoChevronDown } from "react-icons/go";
 import { FS } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 export function FeedOptionsMenu({ feed }) {
@@ -30,8 +31,10 @@ export function FeedOptionsMenu({ feed }) {
 
   return (
     <>
-      <div role="presentation" className="absolute top-2 right-4">
-        <button onClick={toggleOptionsMenu}>*</button>
+      <div role="presentation" className="absolute top-2 right-2">
+        <button onClick={toggleOptionsMenu}>
+          <GoChevronDown />
+        </button>
         <menu
           className={`absolute bg-neutral-100 transition-all w-24 ${
             optionsMenu ? "visible opacity-100" : "invisible opacity-0"

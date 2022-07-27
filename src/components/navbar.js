@@ -4,8 +4,8 @@ import { IoMdHome, IoMdNotifications, IoMdMenu } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 export function Navbar() {
   return (
-    <header>
-      <nav className="shadow-md py-2 mb-2 text-xs">
+    <header className="">
+      <nav className="shadow-md py-2 mb-2 text-xs fixed w-full bg-white top-0 z-50">
         <menu className="mx-auto max-w-fit text-neutral-500">
           <li role="menuitem" className="inline-block px-3 py-1">
             <NavLink to="/">

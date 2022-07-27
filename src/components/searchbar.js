@@ -19,10 +19,6 @@ export function Searchbar(params) {
     searchUsers();
   }, [username]);
 
-  useEffect(() => {
-    console.log(users);
-  }, [users]);
-
   return (
     <span role="presentation" className="relative align-top">
       <input

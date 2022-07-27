@@ -4,6 +4,9 @@ import { FS } from "../firebase/firestore";
 import { User } from "../components/user";
 import { useUserContextState } from "../contexts/user-context";
 import { FeedOptionsMenu } from "../components/feed-options-menu";
+import { BsDot } from "react-icons/bs";
+import { GoGlobe } from "react-icons/go";
+import { FaUser, FaUserFriends } from "react-icons/fa";
 
 const testFeeds = [
   {
@@ -45,14 +48,32 @@ export function Home() {
   );
 }
 
+function renderFeedType(type) {
+  switch (type) {
+    case "public":
+      return <GoGlobe className="inline text-sm" />;
+    case "friends-only":
+      return <FaUserFriends className="inline text-sm" />;
+    default:
+      return <FaUser className="inline text-xs" />;
+  }
+}
+
 function Feed({ feed }) {
   const { user } = useUserContextState();
-
   return (
     <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative">
       <User
         user={feed.publisher}
-        status={<span>8H &bull; Public &bull; {feed.edited && "Edited"}</span>}
+        status={
+          <span>
+            {renderFeedType(feed.type)}
+            <BsDot className="text-2xl inline -mx-1" />
+            8H
+            <BsDot className="text-2xl inline -mx-1" />
+            {feed.edited && "Edited"}
+          </span>
+        }
       />
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
