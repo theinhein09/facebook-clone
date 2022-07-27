@@ -19,9 +19,30 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route path="friends" element={<Friends />} />
-          <Route path="menu" element={<Menu />} />
-          <Route path="notifications" element={<Notifications />} />
+          <Route
+            path="friends"
+            element={
+              <PrivateRoute>
+                <Friends />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="menu"
+            element={
+              <PrivateRoute>
+                <Menu />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="notifications"
+            element={
+              <PrivateRoute>
+                <Notifications />
+              </PrivateRoute>
+            }
+          />
         </Route>
 
         <Route path="/login" element={<Login />} />

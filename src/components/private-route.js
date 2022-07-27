@@ -11,7 +11,7 @@ export function PrivateRoute(props) {
       {loading ? (
         <div>loading...</div>
       ) : (
-        <>{!user ? <Navigate to="login" replace /> : <>{children}</>}</>
+        <>{!user ? <Navigate to="/login" replace /> : <>{children}</>}</>
       )}
     </>
   );
