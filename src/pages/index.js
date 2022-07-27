@@ -1,3 +1,5 @@
+import { Layout } from "../components/layout";
+
 export function Home() {
-  return <div>FEEDS</div>;
+  return <Layout>FEEDS</Layout>;
 }
