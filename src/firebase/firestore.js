@@ -1,5 +1,7 @@
 import {
   collection,
+  doc,
+  getDoc,
   getFirestore,
   limit,
   onSnapshot,
@@ -12,6 +14,18 @@ import { app } from "./init";
 
 const db = getFirestore(app);
 
+const fillArray = (myArray) => {
+  const promises = myArray.map(async (item) => {
+    const user = await getDoc(doc(db, "users", item.data().publisher));
+    return {
+      id: item.id,
+      ...item.data(),
+      publisher: user.data(),
+    };
+  });
+  return Promise.all(promises);
+};
+
 export class FS {
   constructor(collection) {
     this.collection = collection;
@@ -22,11 +36,8 @@ export class FS {
       "all",
       auth._auth.currentUser.uid,
     ]);
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const data = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+      const data = await fillArray(querySnapshot.docs);
       set(data);
     });
     return unsubscribe;

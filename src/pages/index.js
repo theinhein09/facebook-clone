@@ -16,12 +16,17 @@ const testFeeds = [
 ];
 
 export function Home() {
-  const [feeds, setFeeds] = useState(testFeeds);
+  const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
     const feeds = new FS("feeds");
-    feeds.onSnapshot(setFeeds);
+    const unsubscribe = feeds.onSnapshot(setFeeds);
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    console.log(feeds);
+  }, [feeds]);
 
   return (
     <Layout>
