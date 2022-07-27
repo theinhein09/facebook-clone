@@ -21,25 +21,35 @@ export function Login() {
   }
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
+    <main className="relative min-h-screen">
+      <form onSubmit={handleSubmit} className="left-20 top-96 absolute">
+        <label htmlFor="email" className="block text-sm mb-2">
+          Email
+        </label>
         <input
           id="email"
           name="email"
           type="email"
           value={email}
           onChange={handleChange}
+          className="bg-neutral-200 w-64 py-0.5 px-2 rounded mb-2"
         />
-        <label htmlFor="password">Password</label>
+        <label htmlFor="password" className="block text-sm mb-2">
+          Password
+        </label>
         <input
           id="password"
           name="password"
           type="password"
           value={password}
           onChange={handleChange}
+          className="bg-neutral-200 w-64 py-0.5 px-2 rounded mb-4"
         />
-        <input type="submit" value="Sign in" />
+        <input
+          type="submit"
+          value="Login"
+          className="bg-blue-400 px-4 py-1 text-white rounded-full hover:bg-blue-500 shadow-md hover:shadow-lg transition-all text-sm block"
+        />
       </form>
     </main>
   );

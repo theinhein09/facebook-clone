@@ -20,12 +20,15 @@ export const auth = {
     return userCredential.user;
   },
 
-  _onAuthStateChanged(setUser) {
+  _onAuthStateChanged(setUser, loading) {
+    loading.on();
     onAuthStateChanged(this._auth, (user) => {
       if (user) {
         setUser(user);
+        loading.off();
       } else {
         setUser(null);
+        loading.off();
       }
     });
   },

@@ -7,12 +7,10 @@ const UserContextUpdater = createContext();
 
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, { on, off }] = useBoolean(false);
+  const [loading, { on, off }] = useBoolean(true);
 
   useEffect(() => {
-    on();
-    auth._onAuthStateChanged(setUser);
-    off();
+    auth._onAuthStateChanged(setUser, { on, off });
   }, [on, off]);
 
   return (
