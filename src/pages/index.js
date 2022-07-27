@@ -62,7 +62,7 @@ function renderFeedType(type) {
 function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative">
+    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
       <User
         user={feed.publisher}
         status={
@@ -134,7 +134,7 @@ function CreatePost() {
   }
 
   return (
-    <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md">
+    <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
       <User user={curUser} />
       <hr className="mb-2" />
       <section className="p-2">
