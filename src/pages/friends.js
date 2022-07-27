@@ -25,6 +25,13 @@ export function Friends() {
     });
   }
 
+  async function handleDecline(id) {
+    const usersFS = new FS("users");
+    usersFS.updateDoc(user.uid, {
+      pendingRequests: arrayRemove(id),
+    });
+  }
+
   return (
     <Layout>
       <main className="min-h-screen">
@@ -41,7 +48,10 @@ export function Friends() {
               >
                 Accept
               </button>
-              <button className="bg-neutral-200 px-4 py-1 text-sm font-medium text-neutral-600 rounded shadow-md hover:shadow-lg hover:bg-neutral-300 transition-all">
+              <button
+                onClick={() => handleDecline(request.id)}
+                className="bg-neutral-200 px-4 py-1 text-sm font-medium text-neutral-600 rounded shadow-md hover:shadow-lg hover:bg-neutral-300 transition-all"
+              >
                 Decline
               </button>
             </section>
