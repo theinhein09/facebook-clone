@@ -5,6 +5,7 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
   const media = useRef([]);
 
   useEffect(() => {
+    if (widget.current !== null) return;
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",
@@ -52,7 +53,8 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
         }
       }
     );
-  }, [setPost, folder]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function handleUpload(evt) {
     evt.preventDefault();

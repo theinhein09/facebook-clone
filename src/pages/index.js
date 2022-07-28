@@ -93,7 +93,7 @@ function Feed({ feed }) {
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full">
-        <Gallery media={feed.media} />
+        <Gallery media={feed.media} id={feed.id} />
         {/* {feed.media.map((image) => (
           <img key={image} src={image} alt="feed" width={384} height={384} />
         ))} */}

@@ -1,6 +1,6 @@
 export default function Gallery({ media }) {
   const myGallery = window.cloudinary.galleryWidget({
-    container: "#my-gallery",
+    container: `#my-gallery`,
     cloudName: "dmkcfie45",
     carouselStyle: "none",
     zoom: false,
