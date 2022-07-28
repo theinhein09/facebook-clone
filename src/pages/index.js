@@ -131,12 +131,16 @@ function CreatePost() {
   async function handleSubmit(event) {
     event.preventDefault();
     const feedsFS = new FS("feeds");
-    const feed = await feedsFS.addDoc({
+    await feedsFS.addDoc({
       ...post,
       subscribers: getSubscribers(post.type),
       publisher: curUser.id,
     });
-    console.log(feed);
+    setPost({
+      text: "",
+      media: "https://source.unsplash.com/random",
+      type: "public",
+    });
   }
 
   function handleChange({ target }) {

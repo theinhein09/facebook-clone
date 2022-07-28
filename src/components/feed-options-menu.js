@@ -31,7 +31,7 @@ export function FeedOptionsMenu({ feed }) {
 
   return (
     <>
-      <div role="presentation" className="absolute top-2 right-2s">
+      <div role="presentation" className="absolute top-2 right-2">
         <button onClick={toggleOptionsMenu}>
           <GoChevronDown />
         </button>
