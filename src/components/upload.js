@@ -44,7 +44,7 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
       (error, result) => {
         if (!error && result && result.event === "success") {
           console.log("Done! Here is the image info: ", result.info);
-          media.current.push(result.info.secure_url);
+          media.current.push(result.info.public_id);
           setPost((post) => ({
             ...post,
             media: media.current,
