@@ -4,7 +4,7 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
   const widget = useRef(null);
   const media = useRef([]);
   useEffect(() => {
-    if (widget.current !== null || document.body.childElementCount > 2) return;
+    if (widget.current !== null || document.body.childElementCount > 3) return;
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",

@@ -38,7 +38,7 @@ export function FeedOptionsMenu({ feed }) {
           <GoChevronDown />
         </button>
         <menu
-          className={`absolute bg-neutral-100 transition-all w-24 ${
+          className={`absolute right-0 bg-neutral-100 transition-all w-24 ${
             optionsMenu ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >
