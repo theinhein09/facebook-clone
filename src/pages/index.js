@@ -70,17 +70,32 @@ function renderFeedType(type) {
   }
 }
 
+function convertTime(prevTime) {
+  const currentTime = new Date().getHours();
+  const hrs = currentTime - prevTime;
+  const hrsPerDay = 24;
+  const hrsPerWeek = hrsPerDay * 7;
+  if (hrs > hrsPerDay) {
+    return `${Math.floor(hrs / hrsPerDay)}D`;
+  } else if (hrs > hrsPerWeek) {
+    return `${Math.floor(hrs / hrsPerWeek)}W`;
+  }
+
+  return `${hrs}H`;
+}
 function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
+    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white">
       <User
         user={feed.publisher}
         status={
           <span>
             {renderFeedType(feed.type)}
             <BsDot className="text-2xl inline -mx-1" />
-            <span className="font-medium text-neutral-400">8H</span>
+            <span className="font-medium text-neutral-400">
+              {convertTime(feed.timestamp.toDate().getHours())}
+            </span>
             {feed.edited && (
               <>
                 <BsDot className="text-2xl inline -mx-1" />
