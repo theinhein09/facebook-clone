@@ -8,7 +8,6 @@ import { BsDot } from "react-icons/bs";
 import { GoGlobe } from "react-icons/go";
 import { FaUser, FaUserFriends } from "react-icons/fa";
 import CloudinaryUploadWidget from "../components/upload";
-import Gallery from "../components/gallery";
 
 const [] = [
   {
@@ -92,11 +91,10 @@ function Feed({ feed }) {
       />
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
-      <section className="max-w-full">
-        <Gallery media={feed.media} id={feed.id} />
-        {/* {feed.media.map((image) => (
+      <section className="max-w-full" id={feed.id}>
+        {feed.media.map((image) => (
           <img key={image} src={image} alt="feed" width={384} height={384} />
-        ))} */}
+        ))}
       </section>
       {user.uid === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
     </article>
