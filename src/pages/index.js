@@ -7,6 +7,7 @@ import { FeedOptionsMenu } from "../components/feed-options-menu";
 import { BsDot } from "react-icons/bs";
 import { GoGlobe } from "react-icons/go";
 import { FaUser, FaUserFriends } from "react-icons/fa";
+import CloudinaryUploadWidget from "../components/upload";
 
 const testFeeds = [
   {
@@ -148,37 +149,42 @@ function CreatePost() {
   }
 
   return (
-    <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
-      <User user={curUser} />
-      <hr className="mb-2" />
-      <section className="p-2">
-        <textarea
-          name="text"
-          value={post.text}
-          onChange={handleChange}
-          className="min-w-full resize-none p-1 placeholder:italic placeholder:text-sm text-neutral-500"
-          rows="5"
-          placeholder="Write something on your mind..."
-        />
-      </section>
-      <section className="text-right pr-1 pb-2">
-        <select
-          name="type"
-          className="text-xs mr-2 rounded-full ring-1 ring-neutral-300 bg-neutral-200 px-1"
-          value={post.type}
-          onChange={handleChange}
-        >
-          <option value="public">Public</option>
-          <option value="friends-only">Friends only</option>
-          <option value="only me">Only me</option>
-        </select>
-        <input
-          type="submit"
-          value="Post"
-          onClick={handleSubmit}
-          className="bg-blue-300 hover:bg-blue-400 rounded-full shadow-md hover:shadow-lg px-5 py-1 text-sm text-white"
-        />
-      </section>
-    </form>
+    <>
+      <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
+        <User user={curUser} />
+        <hr className="mb-2" />
+        <section className="p-2">
+          <textarea
+            name="text"
+            value={post.text}
+            onChange={handleChange}
+            className="min-w-full resize-none p-1 placeholder:italic placeholder:text-sm text-neutral-500"
+            rows="5"
+            placeholder="Write something on your mind..."
+          />
+        </section>
+        <section className="text-right pr-1 py-2">
+          <CloudinaryUploadWidget />
+        </section>
+        <section className="text-right pr-1 pb-2">
+          <select
+            name="type"
+            className="text-xs mr-2 rounded-full ring-1 ring-neutral-300 bg-neutral-200 px-1"
+            value={post.type}
+            onChange={handleChange}
+          >
+            <option value="public">Public</option>
+            <option value="friends-only">Friends only</option>
+            <option value="only me">Only me</option>
+          </select>
+          <input
+            type="submit"
+            value="Post"
+            onClick={handleSubmit}
+            className="bg-blue-300 hover:bg-blue-400 rounded-full shadow-md hover:shadow-lg px-5 py-1 text-sm text-white transition-all"
+          />
+        </section>
+      </form>
+    </>
   );
 }
