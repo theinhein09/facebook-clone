@@ -13,7 +13,7 @@ const testFeeds = [
   {
     id: 1,
     text: "HELLO",
-    media: "https://source.unsplash.com/random",
+    media: ["https://source.unsplash.com/random"],
     publisher: {
       profileUrl: "https://source.unsplash.com/random",
       username: "NOEL",
@@ -22,14 +22,13 @@ const testFeeds = [
   {
     id: 2,
     text: "WORLD",
-    media: "https://source.unsplash.com/random",
+    media: ["https://source.unsplash.com/random"],
     publisher: {
       profileUrl: "https://source.unsplash.com/random",
       username: "NOEL",
     },
   },
 ];
-
 // const user = {
 //   id: "232",
 //   username: "alsdjfoas",
@@ -93,7 +92,9 @@ function Feed({ feed }) {
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full">
-        <img src={feed.media} alt="feed" width={384} height={384} />
+        {feed.media.map((image) => (
+          <img key={image} src={image} alt="feed" width={384} height={384} />
+        ))}
       </section>
       {user.uid === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
     </article>
@@ -105,7 +106,6 @@ function CreatePost() {
   const [curUser, setCurUser] = useState({});
   const [post, setPost] = useState({
     text: "",
-    media: "",
     type: "public",
   });
 
@@ -163,7 +163,7 @@ function CreatePost() {
           />
         </section>
         <section className="text-right pr-1 py-2">
-          <CloudinaryUploadWidget setPost={setPost} />
+          <CloudinaryUploadWidget setPost={setPost} folder={curUser.id} />
         </section>
         <section className="text-right pr-1 pb-2">
           <select

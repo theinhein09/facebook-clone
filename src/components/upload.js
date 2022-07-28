@@ -1,17 +1,21 @@
 import { useEffect, useRef } from "react";
-import { FS } from "../firebase/firestore";
 
-export default function CloudinaryUploadWidget({ setPost }) {
+export default function CloudinaryUploadWidget({ setPost, folder }) {
   const widget = useRef(null);
+  const media = useRef([]);
 
   useEffect(() => {
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",
         uploadPreset: "sssaoyjo",
-        cropping: true,
         multiple: true,
+        maxFiles: 5,
+        folder,
         defaultSource: "local",
+        clientAllowedFormats: ["webp", "gif", "jpg", "png", "jpeg"],
+        resourceType: "image",
+        showAdvancedOptions: false,
         styles: {
           palette: {
             window: "#ffffff",
@@ -40,14 +44,15 @@ export default function CloudinaryUploadWidget({ setPost }) {
       (error, result) => {
         if (!error && result && result.event === "success") {
           console.log("Done! Here is the image info: ", result.info);
+          media.current.push(result.info.secure_url);
           setPost((post) => ({
             ...post,
-            media: result.info.secure_url,
+            media: media.current,
           }));
         }
       }
     );
-  }, [setPost]);
+  }, [setPost, folder]);
 
   function handleUpload(evt) {
     evt.preventDefault();
