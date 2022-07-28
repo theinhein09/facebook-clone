@@ -105,7 +105,7 @@ function CreatePost() {
   const [curUser, setCurUser] = useState({});
   const [post, setPost] = useState({
     text: "",
-    media: "https://source.unsplash.com/random",
+    media: "",
     type: "public",
   });
 
@@ -139,7 +139,6 @@ function CreatePost() {
     });
     setPost({
       text: "",
-      media: "https://source.unsplash.com/random",
       type: "public",
     });
   }
@@ -164,7 +163,7 @@ function CreatePost() {
           />
         </section>
         <section className="text-right pr-1 py-2">
-          <CloudinaryUploadWidget />
+          <CloudinaryUploadWidget setPost={setPost} />
         </section>
         <section className="text-right pr-1 pb-2">
           <select
