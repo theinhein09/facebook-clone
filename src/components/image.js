@@ -3,15 +3,15 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 // Import required actions and qualifiers.
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
-import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
-import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
-import { FocusOn } from "@cloudinary/url-gen/qualifiers/focusOn";
 
 export function Image({ publicId }) {
   // Create and configure your Cloudinary instance.
   const cld = new Cloudinary({
     cloud: {
-      cloudName: "demo",
+      cloudName: "dmkcfie45",
+    },
+    url: {
+      secure: true, // force https, set to false to force http
     },
   });
 
@@ -19,9 +19,7 @@ export function Image({ publicId }) {
   const myImage = cld.image(publicId);
 
   // Apply the transformation.
-  myImage
-    .resize(thumbnail().width(150).height(150).gravity(focusOn(FocusOn.face()))) // Crop the image, focusing on the face.
-    .roundCorners(byRadius(20)); // Round the corners.
+  myImage.resize(thumbnail().width(400).height(500)); // Crop the image, focusing on the face.
 
   // Render the transformed image in a React component.
   return <AdvancedImage cldImg={myImage} />;

@@ -94,7 +94,9 @@ function Feed({ feed }) {
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
       <section className="max-w-full" id={feed.id}>
         {feed.media.map((image) => (
-          <Image publicId={image} />
+          <div key={image} role="presentation" className="my-2">
+            <Image publicId={image} />
+          </div>
         ))}
       </section>
       {user.uid === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
