@@ -23,15 +23,19 @@ export function Image({ publicId }) {
   //   const myURL = myImage.toURL();
 
   // Apply the transformation.
-  myImage.resize(thumbnail().width(400).height(500)); // Crop the image, focusing on the face.
+  const transformedImage = myImage.resize(thumbnail().width(400).height(500)); // Crop the image, focusing on the face.
 
   // Render the transformed image in a React component.
   return (
     <>
       <button onClick={toggle}>
-        <AdvancedImage cldImg={myImage} />
+        <AdvancedImage cldImg={transformedImage} />
       </button>
-      {preview ? <Preview url={publicId} /> : null}
+      {preview ? (
+        <Preview toggle={toggle}>
+          <AdvancedImage cldImg={myImage} />
+        </Preview>
+      ) : null}
     </>
   );
 }
