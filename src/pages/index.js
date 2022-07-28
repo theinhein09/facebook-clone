@@ -72,7 +72,7 @@ function renderFeedType(type) {
 
 function convertTime(prevTime) {
   const currentTime = new Date().getHours();
-  const hrs = currentTime - prevTime;
+  const hrs = currentTime - prevTime.toDate().getHours();
   const hrsPerDay = 24;
   const hrsPerWeek = hrsPerDay * 7;
   if (hrs > hrsPerDay) {
@@ -94,7 +94,7 @@ function Feed({ feed }) {
             {renderFeedType(feed.type)}
             <BsDot className="text-2xl inline -mx-1" />
             <span className="font-medium text-neutral-400">
-              {convertTime(feed.timestamp.toDate().getHours())}
+              {feed.timestamp && convertTime(feed.timestamp)}
             </span>
             {feed.edited && (
               <>
