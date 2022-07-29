@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 export default function CloudinaryUploadWidget({ setPost, folder }) {
   const widget = useRef(null);
   const media = useRef([]);
-  useEffect(() => {
-    if (widget.current !== null || document.body.childElementCount > 3) return;
+
+  const createWidget = useCallback(() => {
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",
@@ -52,7 +52,11 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
         }
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    widget.current && widget.current.destroy();
+    widget.current = createWidget();
   }, []);
 
   function handleUpload(evt) {

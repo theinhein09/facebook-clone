@@ -11,6 +11,8 @@ import CloudinaryUploadWidget from "../components/upload";
 import { Image } from "../components/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useBoolean } from "../hooks";
+import Modal from "../components/modal";
+import Dialog from "../components/dialog";
 
 const testFeeds = [
   {
@@ -43,9 +45,11 @@ const testFeeds = [
 // };
 
 export function Home() {
+  const { user } = useUserContextState();
   const [feeds, setFeeds] = useState([]);
   const feedsFSRef = useRef(new FS("feeds"));
   const [hasMore, { off }] = useBoolean(true);
+  const [createPost, { toggle: toggleCreatePost }] = useBoolean(false);
 
   useEffect(() => {
     const unsubscribe = feedsFSRef.current.onSnapshot(setFeeds);
@@ -59,25 +63,38 @@ export function Home() {
   }
 
   return (
-    <Layout>
-      <CreatePost />
-      <InfiniteScroll
-        dataLength={feeds.length}
-        next={fetchMoreFeeds}
-        hasMore={hasMore}
-        loader={
-          <>
-            <FeedSkeleton />
-            <FeedSkeleton />
-          </>
-        }
-        scrollThreshold={1}
-      >
-        {feeds.map((feed) => (
-          <Feed key={feed.id} feed={feed} />
-        ))}
-      </InfiniteScroll>
-    </Layout>
+    <>
+      <Layout>
+        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded shadow-lg">
+          <div role="presentation" className="flex">
+            <img width={40} height={40} src={user.profileUrl} alt="profile" />
+            <button
+              className="py-2 w-full bg-neutral-100 rounded-full text-neutral-500 text-left px-3 font-light"
+              onClick={toggleCreatePost}
+            >
+              What's on your mind,{user.username}?
+            </button>
+          </div>
+        </div>
+        <InfiniteScroll
+          dataLength={feeds.length}
+          next={fetchMoreFeeds}
+          hasMore={hasMore}
+          loader={
+            <>
+              <FeedSkeleton />
+              <FeedSkeleton />
+            </>
+          }
+          scrollThreshold={1}
+        >
+          {feeds.map((feed) => (
+            <Feed key={feed.id} feed={feed} />
+          ))}
+        </InfiniteScroll>
+      </Layout>
+      {createPost ? <CreatePost toggleCreatePost={toggleCreatePost} /> : null}
+    </>
   );
 }
 
@@ -168,7 +185,7 @@ function FeedSkeleton() {
   );
 }
 
-function CreatePost() {
+function CreatePost({ toggleCreatePost }) {
   const { user } = useUserContextState();
   const [post, setPost] = useState({
     text: "",
@@ -205,48 +222,53 @@ function CreatePost() {
   }
 
   return (
-    <>
-      <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
-        <h3 className="text-xl text-center font-semibold py-4">Create Post</h3>
-        <hr />
-        <User
-          user={user}
-          status={
-            <select
-              name="type"
-              className="text-xs mr-2 rounded-sm ring-1 ring-neutral-300 bg-neutral-200 px-1"
-              value={post.type}
-              onChange={handleChange}
-            >
-              <option value="public">Public</option>
-              <option value="friends-only">Friends only</option>
-              <option value="only me">Only me</option>
-            </select>
-          }
-        />
-        <section className="p-2">
-          <textarea
-            name="text"
-            value={post.text}
-            onChange={handleChange}
-            className="min-w-full resize-none p-1 text-neutral-500"
-            rows="5"
-            placeholder={`What's on your mind, ${user.username}?`}
+    <Modal>
+      <Dialog>
+        <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
+          <button onClick={toggleCreatePost}>x</button>
+          <h3 className="text-xl text-center font-semibold py-4">
+            Create Post
+          </h3>
+          <hr />
+          <User
+            user={user}
+            status={
+              <select
+                name="type"
+                className="text-xs mr-2 rounded-sm ring-1 ring-neutral-300 bg-neutral-200 px-1"
+                value={post.type}
+                onChange={handleChange}
+              >
+                <option value="public">Public</option>
+                <option value="friends-only">Friends only</option>
+                <option value="only me">Only me</option>
+              </select>
+            }
           />
-        </section>
-        <section className="text-right pr-1 py-2">
-          <CloudinaryUploadWidget setPost={setPost} folder={user.id} />
-        </section>
-        <section className="pb-2 w-full px-2">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="bg-blue-500 hover:bg-blue-600 rounded-md shadow-md hover:shadow-lg w-full py-2 text-sm text-white transition-all"
-          >
-            Post
-          </button>
-        </section>
-      </form>
-    </>
+          <section className="p-2">
+            <textarea
+              name="text"
+              value={post.text}
+              onChange={handleChange}
+              className="min-w-full resize-none p-1 text-neutral-500"
+              rows="5"
+              placeholder={`What's on your mind, ${user.username}?`}
+            />
+          </section>
+          <section className="text-right pr-1 py-2">
+            <CloudinaryUploadWidget setPost={setPost} folder={user.id} />
+          </section>
+          <section className="pb-2 w-full px-2">
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="bg-blue-500 hover:bg-blue-600 rounded-md shadow-md hover:shadow-lg w-full py-2 text-sm text-white transition-all"
+            >
+              Post
+            </button>
+          </section>
+        </form>
+      </Dialog>
+    </Modal>
   );
 }
