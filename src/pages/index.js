@@ -87,7 +87,7 @@ function convertTime(prevTime) {
 function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-sm shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white">
+    <article className="mx-auto max-w-2xl shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white">
       <User
         user={feed.publisher}
         status={
@@ -108,9 +108,9 @@ function Feed({ feed }) {
       />
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
-      <section className="max-w-full" id={feed.id}>
+      <section className="bg-black" id={feed.id}>
         {feed.media.map((image) => (
-          <div key={image} role="presentation" className="my-2">
+          <div key={image} role="presentation" className="mx-auto w-fit">
             <Image publicId={image} />
           </div>
         ))}

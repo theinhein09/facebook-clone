@@ -23,7 +23,7 @@ export function Image({ publicId }) {
   //   const myURL = myImage.toURL();
 
   // Apply the transformation.
-  const transformedImage = myImage.resize(thumbnail().width(400).height(500)); // Crop the image, focusing on the face.
+  const transformedImage = myImage.resize(thumbnail().width(500).height(600)); // Crop the image, focusing on the face.
 
   // Render the transformed image in a React component.
   return (
