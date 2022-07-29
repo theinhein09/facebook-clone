@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Layout } from "../components/layout";
 import { FS } from "../firebase/firestore";
 import { User } from "../components/user";
@@ -9,6 +9,8 @@ import { GoGlobe } from "react-icons/go";
 import { FaUser, FaUserFriends } from "react-icons/fa";
 import CloudinaryUploadWidget from "../components/upload";
 import { Image } from "../components/image";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useBoolean } from "../hooks";
 
 const testFeeds = [
   {
@@ -42,19 +44,39 @@ const testFeeds = [
 
 export function Home() {
   const [feeds, setFeeds] = useState([]);
+  const feedsFSRef = useRef(new FS("feeds"));
+  const [hasMore, { off }] = useBoolean(true);
 
   useEffect(() => {
-    const feeds = new FS("feeds");
-    const unsubscribe = feeds.onSnapshot(setFeeds);
+    const unsubscribe = feedsFSRef.current.onSnapshot(setFeeds);
     return () => unsubscribe();
   }, []);
+
+  async function fetchMoreFeeds() {
+    const nextFeeds = await feedsFSRef.current.getNextDocs();
+    setFeeds([...feeds, ...nextFeeds]);
+    if (nextFeeds.length === 0) off();
+  }
 
   return (
     <Layout>
       <CreatePost />
-      {feeds.map((feed) => (
-        <Feed key={feed.id} feed={feed} />
-      ))}
+      <InfiniteScroll
+        dataLength={feeds.length}
+        next={fetchMoreFeeds}
+        hasMore={hasMore}
+        loader={
+          <>
+            <FeedSkeleton />
+            <FeedSkeleton />
+          </>
+        }
+        scrollThreshold={-1}
+      >
+        {feeds.map((feed) => (
+          <Feed key={feed.id} feed={feed} />
+        ))}
+      </InfiniteScroll>
     </Layout>
   );
 }
@@ -98,7 +120,7 @@ function convertTime(time) {
 function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-2xl shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white">
+    <article className="mx-auto max-w-2xl shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
       <User
         user={feed.publisher}
         status={
@@ -128,6 +150,21 @@ function Feed({ feed }) {
       </section>
       {user.id === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
     </article>
+  );
+}
+
+function FeedSkeleton() {
+  return (
+    <div className="max-w-2xl h-80 shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white mx-auto py-3 mb-4">
+      <div className="flex gap-2 px-2 mb-2">
+        <div className="w-10 h-10 bg-neutral-300 rounded-full animate-pulse" />
+        <div>
+          <div className="w-56 h-4 bg-neutral-300 mb-2 animate-pulse" />
+          <div className="w-32 h-3 bg-neutral-300 animate-pulse" />
+        </div>
+      </div>
+      <div className="bg-neutral-100 h-56 animate-pulse" />
+    </div>
   );
 }
 

@@ -46,6 +46,7 @@ function fetchUsers(ids) {
 export class FS {
   constructor(collection) {
     this.collection = collection;
+    this.lastVisible = null;
   }
 
   async getDoc(id) {
@@ -84,6 +85,8 @@ export class FS {
         ]);
         unsubscribe = onSnapshot(q, async (feeds) => {
           const data = await fetchPublisher(feeds.docs);
+          const lastVisible = feeds.docs[feeds.docs.length - 1];
+          this.lastVisible = lastVisible;
           set(data);
         });
         return unsubscribe;
@@ -106,7 +109,7 @@ export class FS {
         ref,
         where(prop, operator, value),
         orderBy("timestamp", "desc"),
-        limit(3)
+        limit(2)
       );
     return query(ref);
   }
@@ -125,16 +128,22 @@ export class FS {
     });
   }
 
-  async getNextDocs(lastVisible, where) {
-    const { prop, operator, value } = where;
+  async getNextDocs() {
     const ref = collection(db, this.collection);
     const q = query(
       ref,
-      where(prop, operator, value),
+      where("subscribers", "array-contains-any", [
+        "all",
+        auth._auth.currentUser.uid,
+      ]),
       orderBy("timestamp", "desc"),
-      startAfter(lastVisible),
-      limit(3)
+      startAfter(this.lastVisible),
+      limit(2)
     );
-    await getDocs(q);
+
+    const nextDocs = await getDocs(q);
+    const lastVisible = nextDocs.docs[nextDocs.docs.length - 1];
+    this.lastVisible = lastVisible;
+    return await fetchPublisher(nextDocs.docs);
   }
 }
