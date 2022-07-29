@@ -43,16 +43,21 @@ export function CreatePostDialog({ toggleCreatePost }) {
     setPost({ ...post, [target.name]: target.value });
   }
 
+  function handleDialogClose(evt) {
+    evt.preventDefault();
+    toggleCreatePost();
+  }
+
   return (
-    <Modal>
+    <Modal toggle={toggleCreatePost} bgColor="bg-white/70">
       <Dialog>
-        <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
+        <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-2xl shadow-black my-4 rounded-md bg-white">
           <header className="relative">
             <h3 className="text-xl text-center font-semibold py-4">
               Create Post
             </h3>
             <button
-              onClick={toggleCreatePost}
+              onClick={handleDialogClose}
               className="absolute right-3 top-1/2 text-3xl -translate-y-1/2 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex justify-center items-center flex-none transition-all"
             >
               <IoClose />

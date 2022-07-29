@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { createPortal } from "react-dom";
 
-export default function Modal({ children, toggle }) {
+export default function Modal({ children, toggle, bgColor }) {
   const modalRef = useRef(document.getElementById("modal"));
 
   function handleClick(evt) {
@@ -11,7 +11,7 @@ export default function Modal({ children, toggle }) {
   }
   return createPortal(
     <div
-      className="fixed w-screen h-screen top-0 z-50 bg-black/90 backdrop-blur-sm left-0"
+      className={`fixed w-screen h-screen top-0 z-50  backdrop-blur-sm left-0 ${bgColor}`}
       onClick={handleClick}
     >
       {children}
@@ -19,3 +19,7 @@ export default function Modal({ children, toggle }) {
     modalRef.current
   );
 }
+
+Modal.defaultProps = {
+  bgColor: "bg-black/90",
+};

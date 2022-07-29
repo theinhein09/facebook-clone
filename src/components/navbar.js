@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { IoMdHome, IoMdNotifications, IoMdMenu } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { Searchbar } from "./searchbar";
@@ -7,9 +7,19 @@ import logo from "../assets/images/logo.png";
 import { RiSettings5Fill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
 import { useBoolean } from "../hooks";
+import { auth } from "../firebase/authentication";
 export function Navbar() {
   const { user } = useUserContextState();
   const [account, { toggle }] = useBoolean(false);
+  const navigate = useNavigate();
+  async function handleLogout() {
+    try {
+      await auth._signOut();
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   return (
     <>
@@ -80,7 +90,7 @@ export function Navbar() {
           <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
             <IoMdNotifications className="text-2xl mx-auto" />
           </button>
-          <button onClick={toggle} className="w-10 h-10 " onC>
+          <button onClick={toggle} className="w-10 h-10 ">
             <img
               src={user.profileUrl}
               alt="avatar"
@@ -96,7 +106,10 @@ export function Navbar() {
           account ? "block" : "hidden"
         }`}
       >
-        <li className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center">
+        <li
+          role="menuitem"
+          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
+        >
           <div
             role="presentation"
             className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl "
@@ -105,10 +118,14 @@ export function Navbar() {
           </div>
           Settings
         </li>
-        <li className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center">
+        <li
+          role="menuitem"
+          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
+          onClick={handleLogout}
+        >
           <div
             role="presentation"
-            className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl "
+            className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl"
           >
             <FiLogOut className="text-neutral-700" />
           </div>
