@@ -72,12 +72,6 @@ export function Navbar() {
       </menu>
       <section className="w-1/6 px-3 flex items-center justify-end">
         <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
-          A
-        </button>
-        <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
-          A
-        </button>
-        <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
           <IoMdNotifications className="text-2xl mx-auto" />
         </button>
         <button className="bg-neutral-200 w-10 h-10 rounded-full">

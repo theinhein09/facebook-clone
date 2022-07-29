@@ -32,9 +32,9 @@ export function Searchbar(params) {
         id="search-bar"
         value={username}
         onChange={handleChange}
-        placeholder="Search by username..."
+        placeholder="Search Facebook"
         autoComplete="username"
-        className="bg-neutral-100 pl-12 rounded-full placeholder:text-xs placeholder:italic h-10 shadow"
+        className="bg-neutral-100 pl-10 rounded-full h-10 shadow"
       />
       <SearchResults results={users} />
     </div>
