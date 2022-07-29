@@ -71,7 +71,7 @@ export function Home() {
             <FeedSkeleton />
           </>
         }
-        scrollThreshold={-1}
+        scrollThreshold={1}
       >
         {feeds.map((feed) => (
           <Feed key={feed.id} feed={feed} />
