@@ -145,9 +145,9 @@ function Feed({ feed }) {
       />
       <hr className="mb-2" />
       <h2 className="px-1 text-sm py-1">{feed.text}</h2>
-      <section className="bg-black" id={feed.id}>
+      <section className="bg-black flex gap-2" id={feed.id}>
         {feed.media.map((image) => (
-          <div key={image} role="presentation" className="mx-auto w-fit">
+          <div key={image} role="presentation" className="mx-auto w-fit flex">
             <Image publicId={image} />
           </div>
         ))}

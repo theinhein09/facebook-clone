@@ -44,7 +44,7 @@ export function Searchbar(params) {
 function SearchResults({ results }) {
   return (
     <aside
-      className={`bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[100px] transition-all ${
+      className={`absolute mt-3 bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[300px] transition-all ${
         results.length === 0 ? "invisible opacity-0" : "visible opacity-100"
       }`}
     >

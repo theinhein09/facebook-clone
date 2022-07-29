@@ -22,7 +22,7 @@ export function Profile() {
   async function handleAddFriend() {
     const usersFS = new FS("users");
     await usersFS.updateDoc(id, {
-      pendingRequests: arrayUnion(user.uid),
+      pendingRequests: arrayUnion(user.id),
     });
   }
 
@@ -31,9 +31,9 @@ export function Profile() {
       Profile
       <div>{userId}</div>
       {subscribers &&
-      !subscribers.includes(user.uid) &&
+      !subscribers.includes(user.id) &&
       pendingRequests &&
-      !pendingRequests.includes(user.uid) ? (
+      !pendingRequests.includes(user.id) ? (
         <button
           onClick={handleAddFriend}
           className="bg-blue-500 px-4 py-1 text-sm shadow-md hover:shadow-lg hover:bg-blue-400 rounded text-white font-medium"
