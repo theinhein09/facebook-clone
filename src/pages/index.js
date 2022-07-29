@@ -79,10 +79,11 @@ function convertTime(prevTime) {
     return `${Math.floor(hrs / hrsPerDay)}D`;
   } else if (hrs > hrsPerWeek) {
     return `${Math.floor(hrs / hrsPerWeek)}W`;
+  } else {
+    return `${hrs}H`;
   }
-
-  return `${hrs}H`;
 }
+
 function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
@@ -158,38 +159,44 @@ function CreatePost() {
   return (
     <>
       <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
-        <User user={user} />
-        <hr className="mb-2" />
+        <h3 className="text-xl text-center font-semibold py-4">Create Post</h3>
+        <hr />
+        <User
+          user={user}
+          status={
+            <select
+              name="type"
+              className="text-xs mr-2 rounded-sm ring-1 ring-neutral-300 bg-neutral-200 px-1"
+              value={post.type}
+              onChange={handleChange}
+            >
+              <option value="public">Public</option>
+              <option value="friends-only">Friends only</option>
+              <option value="only me">Only me</option>
+            </select>
+          }
+        />
         <section className="p-2">
           <textarea
             name="text"
             value={post.text}
             onChange={handleChange}
-            className="min-w-full resize-none p-1 placeholder:italic placeholder:text-sm text-neutral-500"
+            className="min-w-full resize-none p-1 text-neutral-500"
             rows="5"
-            placeholder="Write something on your mind..."
+            placeholder={`What's on your mind, ${user.username}?`}
           />
         </section>
         <section className="text-right pr-1 py-2">
           <CloudinaryUploadWidget setPost={setPost} folder={user.id} />
         </section>
-        <section className="text-right pr-1 pb-2">
-          <select
-            name="type"
-            className="text-xs mr-2 rounded-full ring-1 ring-neutral-300 bg-neutral-200 px-1"
-            value={post.type}
-            onChange={handleChange}
-          >
-            <option value="public">Public</option>
-            <option value="friends-only">Friends only</option>
-            <option value="only me">Only me</option>
-          </select>
-          <input
+        <section className="pb-2 w-full px-2">
+          <button
             type="submit"
-            value="Post"
             onClick={handleSubmit}
-            className="bg-blue-300 hover:bg-blue-400 rounded-full shadow-md hover:shadow-lg px-5 py-1 text-sm text-white transition-all"
-          />
+            className="bg-blue-500 hover:bg-blue-600 rounded-md shadow-md hover:shadow-lg w-full py-2 text-sm text-white transition-all"
+          >
+            Post
+          </button>
         </section>
       </form>
     </>
