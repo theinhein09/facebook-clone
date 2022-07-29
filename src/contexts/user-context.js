@@ -12,8 +12,10 @@ export function UserContextProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser(id) {
+      on();
       const users = new FS("users");
-      setUser(await users.getDoc(id));
+      id && setUser(await users.getDoc(id));
+      off();
     }
     auth._onAuthStateChanged(fetchUser, { on, off });
   }, [on, off]);
