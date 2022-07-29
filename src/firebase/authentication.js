@@ -23,9 +23,9 @@ export const auth = {
 
   _onAuthStateChanged(setUser, loading) {
     loading.on();
-    onAuthStateChanged(this._auth, (user) => {
+    onAuthStateChanged(this._auth, async (user) => {
       if (user) {
-        setUser(user);
+        await setUser(user.uid);
         loading.off();
       } else {
         setUser(null);

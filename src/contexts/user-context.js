@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/authentication";
+import { FS } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 
 const UserContextState = createContext();
@@ -10,9 +11,16 @@ export function UserContextProvider({ children }) {
   const [loading, { on, off }] = useBoolean(true);
 
   useEffect(() => {
-    auth._onAuthStateChanged(setUser, { on, off });
+    async function fetchUser(id) {
+      const users = new FS("users");
+      setUser(await users.getDoc(id));
+    }
+    auth._onAuthStateChanged(fetchUser, { on, off });
   }, [on, off]);
 
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
     <UserContextState.Provider value={{ user, loading }}>
       <UserContextUpdater.Provider value={setUser}>

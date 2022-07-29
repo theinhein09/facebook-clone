@@ -114,14 +114,13 @@ function Feed({ feed }) {
           </div>
         ))}
       </section>
-      {user.uid === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
+      {user.id === feed.publisher.id ? <FeedOptionsMenu feed={feed} /> : null}
     </article>
   );
 }
 
 function CreatePost() {
   const { user } = useUserContextState();
-  const [curUser, setCurUser] = useState({});
   const [post, setPost] = useState({
     text: "",
     type: "public",
@@ -132,20 +131,11 @@ function CreatePost() {
       case "public":
         return ["all"];
       case "friends-only":
-        return curUser.subscribers;
+        return user.subscribers;
       default:
-        return [curUser.id];
+        return [user.id];
     }
   }
-
-  useEffect(() => {
-    async function fetchUser(id) {
-      const userFS = new FS("users");
-      const user = await userFS.getDoc(id);
-      setCurUser(user);
-    }
-    fetchUser(user.uid);
-  }, [user.uid]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -153,7 +143,7 @@ function CreatePost() {
     await feedsFS.addDoc({
       ...post,
       subscribers: getSubscribers(post.type),
-      publisher: curUser.id,
+      publisher: user.id,
     });
     setPost({
       text: "",
@@ -168,7 +158,7 @@ function CreatePost() {
   return (
     <>
       <form className="mx-auto max-w-sm ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
-        <User user={curUser} />
+        <User user={user} />
         <hr className="mb-2" />
         <section className="p-2">
           <textarea
@@ -181,7 +171,7 @@ function CreatePost() {
           />
         </section>
         <section className="text-right pr-1 py-2">
-          <CloudinaryUploadWidget setPost={setPost} folder={curUser.id} />
+          <CloudinaryUploadWidget setPost={setPost} folder={user.id} />
         </section>
         <section className="text-right pr-1 pb-2">
           <select

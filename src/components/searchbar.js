@@ -21,25 +21,30 @@ export function Searchbar(params) {
   }, [username]);
 
   return (
-    <span role="presentation" className="relative align-top">
+    <div role="presentation" className="relative">
+      <div
+        role="presentation"
+        className="absolute text-lg top-0 left-0 w-10 h-10 rounded-full flex justify-center items-center"
+      >
+        <GoSearch />
+      </div>
       <input
         id="search-bar"
         value={username}
         onChange={handleChange}
         placeholder="Search by username..."
         autoComplete="username"
-        className="bg-neutral-100 px-3 py-1 mt-2 rounded-full placeholder:text-xs placeholder:italic min-w-[300px] shadow"
+        className="bg-neutral-100 pl-12 rounded-full placeholder:text-xs placeholder:italic h-10 shadow"
       />
-      <GoSearch className="absolute text-lg top-0 inline right-3" />
       <SearchResults results={users} />
-    </span>
+    </div>
   );
 }
 
 function SearchResults({ results }) {
   return (
     <aside
-      className={`absolute right-0 top-full mt-3 bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[300px] transition-all ${
+      className={`bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[100px] transition-all ${
         results.length === 0 ? "invisible opacity-0" : "visible opacity-100"
       }`}
     >

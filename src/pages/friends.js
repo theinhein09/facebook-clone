@@ -11,23 +11,23 @@ export function Friends() {
 
   useEffect(() => {
     const usersFS = new FS("users");
-    usersFS.onSnapshot(setRequests, user.uid);
-  }, [user.uid]);
+    usersFS.onSnapshot(setRequests, user.id);
+  }, [user.id]);
 
   async function handleAccept(id) {
     const usersFS = new FS("users");
-    usersFS.updateDoc(user.uid, {
+    usersFS.updateDoc(user.id, {
       subscribers: arrayUnion(id),
       pendingRequests: arrayRemove(id),
     });
     usersFS.updateDoc(id, {
-      subscribers: arrayUnion(user.uid),
+      subscribers: arrayUnion(user.id),
     });
   }
 
   async function handleDecline(id) {
     const usersFS = new FS("users");
-    usersFS.updateDoc(user.uid, {
+    usersFS.updateDoc(user.id, {
       pendingRequests: arrayRemove(id),
     });
   }
