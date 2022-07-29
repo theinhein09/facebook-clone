@@ -34,14 +34,17 @@ export function Friends() {
 
   return (
     <Layout>
-      <main className="min-h-screen">
-        <h1 className="min-w-[320px] w-fit mx-auto p-2 pl-0.5 m-2 font-medium text-neutral-500">
+      <>
+        <h1 className="max-w-2xl mx-auto p-2 pl-0.5 m-2 font-medium text-neutral-500">
           Pending requests
         </h1>
         {requests.map((request) => (
-          <article className="bg-white max-w-fit mx-auto rounded shadow-lg ring-1 ring-neutral-50">
+          <article
+            key={request.id}
+            className="bg-white mx-auto rounded shadow-lg ring-1 ring-neutral-50 w-full max-w-2xl"
+          >
             <User user={request} />
-            <section className="min-w-[320px] p-2 text-right">
+            <section className="max-w-2xl p-2 text-right">
               <button
                 onClick={() => handleAccept(request.id)}
                 className="bg-blue-500 px-4 py-1 text-sm font-medium text-white rounded shadow-md hover:shadow-lg hover:bg-blue-400 transition-all mr-2"
@@ -57,7 +60,7 @@ export function Friends() {
             </section>
           </article>
         ))}
-      </main>
+      </>
     </Layout>
   );
 }
