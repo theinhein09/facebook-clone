@@ -1,10 +1,15 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CloudinaryUploadWidget({ setPost, folder }) {
   const widget = useRef(null);
   const media = useRef([]);
 
-  const createWidget = useCallback(() => {
+  useEffect(() => {
+    return () => widget.current && widget.current.destroy();
+  }, []);
+
+  function handleUpload(evt) {
+    evt.preventDefault();
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",
@@ -52,24 +57,17 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
         }
       }
     );
-  }, []);
-
-  useEffect(() => {
-    widget.current && widget.current.destroy();
-    widget.current = createWidget();
-  }, []);
-
-  function handleUpload(evt) {
-    evt.preventDefault();
     widget.current.open();
   }
 
   return (
-    <button
-      onClick={handleUpload}
-      className="transition-all text-sm text-white bg-green-600 hover:bg-green-500 hover:shadow-lg shadow-md rounded-full px-4 py-1 font-medium"
-    >
-      Upload
-    </button>
+    <div role="presentation" className="px-2 my-3">
+      <button
+        onClick={handleUpload}
+        className="transition-all text-sm w-full py-4 rounded ring-1 ring-neutral-300 text-left px-3 text-neutral-700 font-medium hover:bg-neutral-200"
+      >
+        Add to your post
+      </button>
+    </div>
   );
 }

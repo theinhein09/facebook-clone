@@ -13,7 +13,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useBoolean } from "../hooks";
 import Modal from "../components/modal";
 import Dialog from "../components/dialog";
-
+import { IoClose } from "react-icons/io5";
 const testFeeds = [
   {
     id: 1,
@@ -65,14 +65,14 @@ export function Home() {
   return (
     <>
       <Layout>
-        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded shadow-lg">
+        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded-md shadow-lg">
           <div role="presentation" className="flex">
             <img width={40} height={40} src={user.profileUrl} alt="profile" />
             <button
               className="py-2 w-full bg-neutral-100 rounded-full text-neutral-500 text-left px-3 font-light"
               onClick={toggleCreatePost}
             >
-              What's on your mind,{user.username}?
+              What's on your mind, {user.username}?
             </button>
           </div>
         </div>
@@ -225,10 +225,17 @@ function CreatePost({ toggleCreatePost }) {
     <Modal>
       <Dialog>
         <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-lg my-4 rounded-md bg-white">
-          <button onClick={toggleCreatePost}>x</button>
-          <h3 className="text-xl text-center font-semibold py-4">
-            Create Post
-          </h3>
+          <header className="relative">
+            <h3 className="text-xl text-center font-semibold py-4">
+              Create Post
+            </h3>
+            <button
+              onClick={toggleCreatePost}
+              className="absolute right-3 top-1/2 text-3xl -translate-y-1/2 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex justify-center items-center flex-none transition-all"
+            >
+              <IoClose />
+            </button>
+          </header>
           <hr />
           <User
             user={user}
