@@ -70,18 +70,29 @@ function renderFeedType(type) {
   }
 }
 
-function convertTime(prevTime) {
-  const currentTime = new Date().getHours();
-  const hrs = currentTime - prevTime.toDate().getHours();
-  const hrsPerDay = 24;
-  const hrsPerWeek = hrsPerDay * 7;
-  if (hrs > hrsPerDay) {
-    return `${Math.floor(hrs / hrsPerDay)}D`;
-  } else if (hrs > hrsPerWeek) {
-    return `${Math.floor(hrs / hrsPerWeek)}W`;
-  } else {
-    return `${hrs}H`;
-  }
+function convertTime(time) {
+  const fullDate = time.toDate();
+  const month = fullDate.getMonth();
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const date = fullDate.getDate();
+  const hours = fullDate.getHours();
+  const formattedHrs = hours >= 12 ? hours - 12 : hours;
+  const minutes = fullDate.getMinutes();
+  const ap = hours >= 12 ? "PM" : "AM";
+  return `${months[month]} ${date} at ${formattedHrs}:${minutes} ${ap}`;
 }
 
 function Feed({ feed }) {
