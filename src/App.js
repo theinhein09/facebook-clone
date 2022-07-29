@@ -4,7 +4,6 @@ import { Home } from "./pages";
 import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
 import { Menu } from "./pages/menu";
-import { Notifications } from "./pages/notifications";
 import { Profile } from "./pages/profile";
 
 function App() {
@@ -33,14 +32,6 @@ function App() {
             element={
               <PrivateRoute>
                 <Menu />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="notifications"
-            element={
-              <PrivateRoute>
-                <Notifications />
               </PrivateRoute>
             }
           />

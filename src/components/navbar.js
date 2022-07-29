@@ -3,12 +3,15 @@ import { IoMdHome, IoMdNotifications, IoMdMenu } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { Searchbar } from "./searchbar";
 import { useUserContextState } from "../contexts/user-context";
+import logo from "../assets/images/logo.png";
 export function Navbar() {
   const { user } = useUserContextState();
   return (
-    <nav className="shadow-md fixed w-full bg-white top-0 z-50 flex">
-      <section className="flex items-center w-1/6">
-        <h1 className="text-3xl">f</h1>
+    <nav className="shadow-md fixed w-full bg-white top-0 z-50 flex px-5">
+      <section className="flex items-center w-1/6 gap-2">
+        <div className="w-10 h-10 flex-none">
+          <img src={logo} alt="logo" width={40} height={40} />
+        </div>
         <Searchbar />
       </section>
       <menu className="flex-grow text-neutral-500 flex justify-center">
@@ -49,24 +52,6 @@ export function Navbar() {
           </NavLink>
         </li>
         <li role="menuitem" className="inline-block px-3 py-1">
-          <NavLink to="/notifications">
-            {({ isActive }) => (
-              <span
-                className={
-                  isActive ? "text-blue-500 transition-all" : undefined
-                }
-              >
-                <IoMdNotifications
-                  className={`text-2xl mx-auto ${
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }`}
-                />
-                Notifications
-              </span>
-            )}
-          </NavLink>
-        </li>
-        <li role="menuitem" className="inline-block px-3 py-1">
           <NavLink to="/menu">
             {({ isActive }) => (
               <span
@@ -93,7 +78,7 @@ export function Navbar() {
           A
         </button>
         <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
-          A
+          <IoMdNotifications className="text-2xl mx-auto" />
         </button>
         <button className="bg-neutral-200 w-10 h-10 rounded-full">
           <img
