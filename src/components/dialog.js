@@ -1,4 +1,4 @@
-export default function Dialog({ children }) {
+export function Dialog({ children }) {
   return (
     <div
       role="dialog"

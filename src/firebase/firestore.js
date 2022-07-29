@@ -11,6 +11,7 @@ import {
   orderBy,
   query,
   serverTimestamp,
+  setDoc,
   startAfter,
   updateDoc,
   where,
@@ -73,6 +74,11 @@ export class FS {
   async addDoc(data) {
     const ref = collection(db, this.collection);
     return await addDoc(ref, { ...data, timestamp: serverTimestamp() });
+  }
+
+  async setDoc(id, data) {
+    const ref = doc(db, this.collection, id);
+    return await setDoc(ref, { ...data, timestamp: serverTimestamp() });
   }
 
   onSnapshot(set, docId) {

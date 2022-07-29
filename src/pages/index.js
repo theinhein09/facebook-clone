@@ -11,7 +11,7 @@ import { Image } from "../components/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useBoolean } from "../hooks";
 import { CreatePostDialog } from "../components/create-post-dialog";
-
+import { months } from "../utils";
 const testFeeds = [
   {
     id: 1,
@@ -112,20 +112,7 @@ function renderFeedType(type) {
 function convertTime(time) {
   const fullDate = time.toDate();
   const month = fullDate.getMonth();
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+
   const date = fullDate.getDate();
   const hours = fullDate.getHours();
   const formattedHrs = hours >= 12 ? hours - 12 : hours;

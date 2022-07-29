@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { createPortal } from "react-dom";
 
-export default function Modal({ children, toggle, bgColor }) {
+export function Modal({ children, toggle, bgColor }) {
   const modalRef = useRef(document.getElementById("modal"));
 
   function handleClick(evt) {

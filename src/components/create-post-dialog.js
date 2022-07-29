@@ -2,8 +2,8 @@ import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useUserContextState } from "../contexts/user-context";
 import { FS } from "../firebase/firestore";
-import Dialog from "./dialog";
-import Modal from "./modal";
+import { Dialog } from "./dialog";
+import { Modal } from "./modal";
 import CloudinaryUploadWidget from "./upload";
 import { User } from "./user";
 

@@ -1,5 +1,5 @@
-import Dialog from "./dialog";
-import Modal from "./modal";
+import { Dialog } from "./dialog";
+import { Modal } from "./modal";
 
 export default function Preview({ children, toggle }) {
   return (

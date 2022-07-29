@@ -2,8 +2,8 @@ import { useState } from "react";
 import { GoChevronDown } from "react-icons/go";
 import { FS } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
-import Dialog from "./dialog";
-import Modal from "./modal";
+import { Dialog } from "./dialog";
+import { Modal } from "./modal";
 export function FeedOptionsMenu({ feed }) {
   const [optionsMenu, { toggle: toggleOptionsMenu }] = useBoolean(false);
   const [editingFeed, setEditingFeed] = useState({ text: "" });

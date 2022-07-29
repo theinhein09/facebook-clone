@@ -1,5 +1,6 @@
 import {
   browserSessionPersistence,
+  createUserWithEmailAndPassword,
   getAuth,
   onAuthStateChanged,
   setPersistence,
@@ -14,6 +15,15 @@ export const auth = {
   async _signIn(email, password) {
     await setPersistence(this._auth, browserSessionPersistence);
     const userCredential = await signInWithEmailAndPassword(
+      this._auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  },
+
+  async _signUp(email, password) {
+    const userCredential = await createUserWithEmailAndPassword(
       this._auth,
       email,
       password
