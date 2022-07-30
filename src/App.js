@@ -5,6 +5,7 @@ import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
 import { Menu } from "./pages/menu";
 import { Profile } from "./pages/profile";
+import { User } from "./pages/user";
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
             element={
               <PrivateRoute>
                 <Menu />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/user"
+            element={
+              <PrivateRoute>
+                <User />
               </PrivateRoute>
             }
           />

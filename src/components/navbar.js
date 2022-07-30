@@ -8,6 +8,7 @@ import { RiSettings5Fill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
 import { useBoolean } from "../hooks";
 import { auth } from "../firebase/authentication";
+import { User } from "./user";
 export function Navbar() {
   const { user } = useUserContextState();
   const [account, { toggle }] = useBoolean(false);
@@ -90,7 +91,7 @@ export function Navbar() {
           <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
             <IoMdNotifications className="text-2xl mx-auto" />
           </button>
-          <button onClick={toggle} className="w-10 h-10 ">
+          <button onClick={toggle} className="w-10 h-10 flex-none">
             <img
               src={user.profileUrl}
               alt="avatar"
@@ -106,6 +107,13 @@ export function Navbar() {
           account ? "block" : "hidden"
         }`}
       >
+        <li
+          role="menuitem"
+          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer shadow-lg ring-1 ring-neutral-100"
+          onClick={() => navigate("/user")}
+        >
+          <User user={user} />
+        </li>
         <li
           role="menuitem"
           className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
