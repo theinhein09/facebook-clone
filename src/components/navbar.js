@@ -103,7 +103,7 @@ export function Navbar() {
         </section>
       </nav>
       <menu
-        className={`right-3 mt-16 fixed p-2 bg-white ring-1 ring-neutral-200 rounded-md shadow-2xl ${
+        className={`right-3 mt-16 fixed p-2 bg-white ring-1 ring-neutral-200 rounded-md shadow-2xl z-50 ${
           account ? "block" : "hidden"
         }`}
       >
