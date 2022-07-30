@@ -1,3 +1,5 @@
+import { Image } from "./image";
+
 export function User({ user, status }) {
   return (
     <section className="py-2 flex items-center">
@@ -5,12 +7,9 @@ export function User({ user, status }) {
         role="presentation"
         className="max-w-10 max-h-40 ml-1 mr-2 rounded-full"
       >
-        <img
-          src={user.profileUrl}
-          alt="avatar"
-          width={40}
-          height={40}
-          className="object-center aspect-square"
+        <Image
+          publicId={user.profileUrl}
+          transform={{ type: "profile-pic", width: 40, height: 40 }}
         />
       </div>
       <div className="text-sm font-light flex-col gap-2">

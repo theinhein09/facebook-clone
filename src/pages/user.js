@@ -1,8 +1,9 @@
 import { Layout } from "../components/layout";
 import { useUserContextState } from "../contexts/user-context";
 import { useBoolean } from "../hooks";
-import { TbPhoto } from "react-icons/tb";
 import { BiUser } from "react-icons/bi";
+import CloudinaryUploadWidget from "../components/upload-profile-pic";
+import { Image } from "../components/image";
 export function User() {
   const { user } = useUserContextState();
   const [profilePic, { toggle }] = useBoolean(false);
@@ -13,14 +14,11 @@ export function User() {
           <div className="w-8/12 bg-neutral-300 h-96 mx-auto rounded-b-xl relative">
             <button
               onClick={toggle}
-              className="absolute bottom-0 translate-y-1/2 left-8"
+              className="absolute bottom-0 translate-y-1/2 left-8 rounded-full border-4 bg-black border-white"
             >
-              <img
-                src={user.profileUrl}
-                alt="profile"
-                className="rounded-full"
-                width={150}
-                height={150}
+              <Image
+                publicId={user.profileUrl}
+                transform={{ type: "profile-pic", width: 150, height: 150 }}
               />
             </button>
             <menu
@@ -42,15 +40,9 @@ export function User() {
               </li>
               <li
                 role="menuitem"
-                className="text-left w-full py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
+                className="text-left w-full py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all"
               >
-                <div
-                  role="presentation"
-                  className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl"
-                >
-                  <TbPhoto className="text-neutral-700" />
-                </div>
-                Update profile picture
+                <CloudinaryUploadWidget />
               </li>
             </menu>
           </div>

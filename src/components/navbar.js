@@ -9,6 +9,7 @@ import { FiLogOut } from "react-icons/fi";
 import { useBoolean } from "../hooks";
 import { auth } from "../firebase/authentication";
 import { User } from "./user";
+import { Image } from "./image";
 export function Navbar() {
   const { user } = useUserContextState();
   const [account, { toggle }] = useBoolean(false);
@@ -92,12 +93,9 @@ export function Navbar() {
             <IoMdNotifications className="text-2xl mx-auto" />
           </button>
           <button onClick={toggle} className="w-10 h-10 flex-none">
-            <img
-              src={user.profileUrl}
-              alt="avatar"
-              width={40}
-              height={40}
-              className="rounded-full object-center aspect-square"
+            <Image
+              publicId={user.profileUrl}
+              transform={{ type: "profile-pic", width: 40, height: 40 }}
             />
           </button>
         </section>

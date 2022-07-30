@@ -64,8 +64,13 @@ export function Home() {
     <>
       <Layout>
         <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded-md shadow-lg">
-          <div role="presentation" className="flex">
-            <img width={40} height={40} src={user.profileUrl} alt="profile" />
+          <div role="presentation" className="flex gap-2">
+            <div>
+              <Image
+                publicId={user.profileUrl}
+                transform={{ type: "profile-pic", width: 40, height: 40 }}
+              />
+            </div>
             <button
               className="py-2 w-full bg-neutral-100 rounded-full text-neutral-500 text-left px-3 font-light"
               onClick={toggleCreatePost}

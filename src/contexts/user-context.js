@@ -23,6 +23,7 @@ export function UserContextProvider({ children }) {
   useEffect(() => {
     console.log(user);
   }, [user]);
+
   return (
     <UserContextState.Provider value={{ user, loading }}>
       <UserContextUpdater.Provider value={setUser}>
