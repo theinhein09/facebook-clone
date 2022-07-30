@@ -40,6 +40,8 @@ export function Image({ publicId, transform }) {
         .roundCorners(byRadius(100));
 
       return <AdvancedImage cldImg={transformedImage} />;
+    } else if (type === "preview") {
+      return <AdvancedImage cldImg={myImage} />;
     } else {
       transformedImage = myImage.resize(thumbnail().width(500).height(600)); // Crop the image, focusing on the face.
       return (

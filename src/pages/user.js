@@ -4,9 +4,12 @@ import { useBoolean } from "../hooks";
 import { BiUser } from "react-icons/bi";
 import CloudinaryUploadWidget from "../components/upload-profile-pic";
 import { Image } from "../components/image";
+import Preview from "../components/preview";
 export function User() {
   const { user } = useUserContextState();
   const [profilePic, { toggle }] = useBoolean(false);
+  const [viewProfilePic, { toggle: toggleViewProfilePic }] = useBoolean(false);
+
   return (
     <>
       <Layout>
@@ -29,6 +32,7 @@ export function User() {
               <li
                 role="menuitem"
                 className="text-left w-full py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
+                onClick={toggleViewProfilePic}
               >
                 <div
                   role="presentation"
@@ -54,6 +58,11 @@ export function User() {
           <hr />
         </section>
       </Layout>
+      {viewProfilePic ? (
+        <Preview toggle={toggleViewProfilePic}>
+          <Image publicId={user.profileUrl} transform={{ type: "preview" }} />
+        </Preview>
+      ) : null}
     </>
   );
 }
