@@ -5,7 +5,7 @@ import { useUserContextState } from "../contexts/user-context";
 export function PrivateRoute(props) {
   const { children } = props;
   const { user, loading } = useUserContextState();
-  console.log(user, loading, "PRIVATE");
+
   return (
     <>
       {loading ? (

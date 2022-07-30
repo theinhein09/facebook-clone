@@ -63,7 +63,7 @@ export function Home() {
   return (
     <>
       <Layout>
-        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded-md shadow-lg">
+        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded-md shadow-lg mt-4">
           <div role="presentation" className="flex gap-2">
             <div>
               <Image

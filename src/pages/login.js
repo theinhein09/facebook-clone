@@ -59,8 +59,7 @@ export function Login() {
       subscribers: [user.uid],
       pendingRequests: [],
       timestamp: "",
-      profileUrl:
-        "https://res.cloudinary.com/dmkcfie45/image/upload/c_thumb,g_face,w_200/v1659008033/default_avatar_xuum5f.jpg",
+      profileUrl: "default_avatar_xuum5f.jpg",
     };
     const usersFS = new FS("users");
     await usersFS.setDoc(user.uid, formattedUser);
