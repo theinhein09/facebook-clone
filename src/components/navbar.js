@@ -7,7 +7,7 @@ import logo from "../assets/images/logo.png";
 import { RiSettings5Fill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
 import { useBoolean } from "../hooks";
-import { auth } from "../firebase/authentication";
+import { Auth } from "../firebase/authentication";
 import { User } from "./user";
 import { Image } from "./image";
 export function Navbar() {
@@ -16,7 +16,7 @@ export function Navbar() {
   const navigate = useNavigate();
   async function handleLogout() {
     try {
-      await auth._signOut();
+      await Auth.signOut();
       navigate("/login");
     } catch (err) {
       console.log(err);

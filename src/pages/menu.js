@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { Layout } from "../components/layout";
-import { auth } from "../firebase/authentication";
+import { Auth } from "../firebase/authentication";
 
 export function Menu() {
   const navigate = useNavigate();
 
   async function handleLogout() {
     try {
-      await auth._signOut();
+      await Auth.signOut();
       navigate("/login");
     } catch (err) {
       console.log(err);

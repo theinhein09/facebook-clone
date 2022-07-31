@@ -16,7 +16,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth } from "./authentication";
+import { Auth } from "./authentication";
 import { app } from "./init";
 
 const db = getFirestore(app);
@@ -140,10 +140,7 @@ export class Feeds {
   static getRealTimeFeeds(set) {
     const q = query(
       this.collectionRef,
-      where("subscribers", "array-contains-any", [
-        "all",
-        auth._auth.currentUser.uid,
-      ]),
+      where("subscribers", "array-contains-any", ["all", Auth.currentUser.uid]),
       orderBy("timestamp", "desc"),
       limit(2)
     );
@@ -167,10 +164,7 @@ export class Feeds {
   static async getNextFeeds() {
     const q = query(
       this.collectionRef,
-      where("subscribers", "array-contains-any", [
-        "all",
-        auth._auth.currentUser.uid,
-      ]),
+      where("subscribers", "array-contains-any", ["all", Auth.currentUser.uid]),
       orderBy("timestamp", "desc"),
       startAfter(this.lastVisible),
       limit(2)

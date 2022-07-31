@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/modal";
 import { Dialog } from "../components/dialog";
-import { auth } from "../firebase/authentication";
+import { Auth } from "../firebase/authentication";
 import { useBoolean } from "../hooks";
 import { months, days, years } from "../utils";
 import { Users } from "../firebase/firestore";
@@ -30,7 +30,7 @@ export function Login() {
   async function handleSubmit(event) {
     event.preventDefault();
     try {
-      await auth._signIn(email, password);
+      await Auth.signIn(email, password);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -46,7 +46,7 @@ export function Login() {
     evt.preventDefault();
     const { firstName, lastName, email, password, month, day, year, gender } =
       newUser;
-    const user = await auth._signUp(email, password);
+    const user = await Auth.signUp(email, password);
     const formattedUser = {
       id: user.uid,
       username: firstName + " " + lastName,

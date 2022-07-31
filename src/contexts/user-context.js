@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase/authentication";
+import { Auth } from "../firebase/authentication";
 import { Users } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 
@@ -16,7 +16,7 @@ export function UserContextProvider({ children }) {
       id && setUser(await Users.getUserById(id));
       off();
     }
-    auth._onAuthStateChanged(fetchUser, { on, off });
+    Auth.onAuthStateChanged(fetchUser, { on, off });
   }, [on, off]);
 
   useEffect(() => {

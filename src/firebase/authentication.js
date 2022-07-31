@@ -48,3 +48,45 @@ export const auth = {
     await signOut(this._auth);
   },
 };
+
+export class Auth {
+  static auth = getAuth(app);
+
+  static currentUser = this.auth.currentUser;
+
+  static async signIn(email, password) {
+    await setPersistence(this._auth, browserSessionPersistence);
+    const userCredential = await signInWithEmailAndPassword(
+      this._auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  }
+
+  static async signUp(email, password) {
+    const userCredential = await createUserWithEmailAndPassword(
+      this._auth,
+      email,
+      password
+    );
+    return userCredential.user;
+  }
+
+  static onAuthStateChanged(setUser, loading) {
+    loading.on();
+    onAuthStateChanged(this.auth, async (user) => {
+      if (user) {
+        await setUser(user.uid);
+        loading.off();
+      } else {
+        setUser(null);
+        loading.off();
+      }
+    });
+  }
+
+  static async signOut() {
+    await signOut(this.auth);
+  }
+}
