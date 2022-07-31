@@ -6,7 +6,7 @@ export function Modal({ children, toggle, bgColor }) {
 
   function handleClick(evt) {
     if (evt.target === evt.currentTarget) {
-      toggle();
+      typeof toggle === "function" && toggle();
     }
   }
   return createPortal(

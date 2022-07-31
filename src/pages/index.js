@@ -12,35 +12,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useBoolean } from "../hooks";
 import { CreatePostDialog } from "../components/create-post-dialog";
 import { months } from "../utils";
-const testFeeds = [
-  {
-    id: 1,
-    text: "HELLO",
-    media: ["https://source.unsplash.com/random"],
-    publisher: {
-      profileUrl: "https://source.unsplash.com/random",
-      username: "NOEL",
-    },
-  },
-  {
-    id: 2,
-    text: "WORLD",
-    media: ["https://source.unsplash.com/random"],
-    publisher: {
-      profileUrl: "https://source.unsplash.com/random",
-      username: "NOEL",
-    },
-  },
-];
-// const user = {
-//   id: "232",
-//   username: "alsdjfoas",
-//   email: "aosdjfo@laf.cm",
-//   profileUrl: "oasdjf",
-//   subscribers: [this.id],
-//   timestamp: "timestamp",
-//   pendingRequests: [],
-// };
 
 export function Home() {
   const { user } = useUserContextState();
@@ -128,7 +99,7 @@ function convertTime(time) {
 export function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-2xl shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
+    <article className="mx-auto max-w-2xl shadow-lg md:rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
       <User
         user={feed.publisher}
         status={

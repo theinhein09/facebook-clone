@@ -49,7 +49,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
   }
 
   return (
-    <Modal toggle={toggleCreatePost} bgColor="bg-white/70">
+    <Modal bgColor="bg-white/70">
       <Dialog>
         <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-2xl shadow-black my-4 rounded-md bg-white">
           <header className="relative">

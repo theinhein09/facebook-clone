@@ -1,11 +1,13 @@
 import { BiUser } from "react-icons/bi";
 import { NavLink } from "react-router-dom";
+import { useUserContextState } from "../contexts/user-context";
 import { useBoolean } from "../hooks";
 import { Image } from "./image";
 import Preview from "./preview";
 import CloudinaryUploadWidget from "./upload-profile-pic";
 
 export function ProfileHeader({ user, actionsBar }) {
+  const { user: currentUser } = useUserContextState();
   const [profilePicMenu, { toggle: toggleProfilePicMenu }] = useBoolean(false);
   const [viewProfilePic, { toggle: toggleViewProfilePic }] = useBoolean(false);
 
@@ -42,12 +44,14 @@ export function ProfileHeader({ user, actionsBar }) {
                 </div>
                 View profile picture
               </li>
-              <li
-                role="menuitem"
-                className="py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all"
-              >
-                <CloudinaryUploadWidget />
-              </li>
+              {currentUser.id === user.id ? (
+                <li
+                  role="menuitem"
+                  className="py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all"
+                >
+                  <CloudinaryUploadWidget />
+                </li>
+              ) : null}
             </menu>
           </div>
           <div className="py-5 pl-3 text-3xl font-semibold flex-grow">

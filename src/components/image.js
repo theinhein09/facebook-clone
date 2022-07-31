@@ -24,7 +24,9 @@ export function Image({ publicId, transform }) {
 
   // Use the image with public ID, 'front_face'.
   const myImage = cld.image(publicId);
+  const fullSize = cld.image(publicId);
   myImage.format("webp");
+  fullSize.format("webp");
 
   //   const myURL = myImage.toURL();
 
@@ -58,7 +60,7 @@ export function Image({ publicId, transform }) {
       {renderImage()}
       {preview ? (
         <Preview toggle={toggle}>
-          <AdvancedImage cldImg={myImage} />
+          <AdvancedImage cldImg={fullSize} />
         </Preview>
       ) : null}
     </>
