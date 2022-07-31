@@ -4,7 +4,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { NavLink, useParams } from "react-router-dom";
 import { Feed, FeedSkeleton } from ".";
 import { Layout } from "../components/layout";
-import ProfileHeader from "../components/profile-header";
+import { ProfileLayout } from "../components/profile-layout";
 import { useUserContextState } from "../contexts/user-context";
 import { Feeds, Users } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
@@ -44,50 +44,23 @@ export function Profile() {
   }
 
   return (
-    <Layout>
-      <ProfileHeader
-        user={profile}
-        actionsBar={
-          profile.subscribers &&
-          !profile.subscribers.includes(user.id) &&
-          profile.pendingRequests &&
-          !profile.pendingRequests.includes(user.id) ? (
-            <button
-              onClick={handleAddFriend}
-              disabled={disabledBtn}
-              className="bg-blue-500 px-4 py-1 text-sm shadow-md hover:shadow-lg hover:bg-blue-400 rounded text-white font-medium"
-            >
-              Add Friend
-            </button>
-          ) : null
-        }
-        navbar={
-          <nav>
-            <NavLink to={`/${userId}`}>
-              {({ isActive }) => (
-                <span
-                  className={`px-5 pb-4 inline-block ${
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }`}
-                >
-                  Posts
-                </span>
-              )}
-            </NavLink>
-            <NavLink to={`/${userId}/about`}>
-              {({ isActive }) => (
-                <span
-                  className={`px-5 pb-4 inline-block ${
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }`}
-                >
-                  About
-                </span>
-              )}
-            </NavLink>
-          </nav>
-        }
-      />
+    <ProfileLayout
+      user={profile}
+      actionsBar={
+        profile.subscribers &&
+        !profile.subscribers.includes(user.id) &&
+        profile.pendingRequests &&
+        !profile.pendingRequests.includes(user.id) ? (
+          <button
+            onClick={handleAddFriend}
+            disabled={disabledBtn}
+            className="bg-blue-500 px-4 py-1 text-sm shadow-md hover:shadow-lg hover:bg-blue-400 rounded text-white font-medium"
+          >
+            Add Friend
+          </button>
+        ) : null
+      }
+    >
       <section>
         <InfiniteScroll
           dataLength={feeds.length}
@@ -106,6 +79,6 @@ export function Profile() {
           ))}
         </InfiniteScroll>
       </section>
-    </Layout>
+    </ProfileLayout>
   );
 }

@@ -17,7 +17,6 @@ export default function CloudinaryUploadWidget() {
 
   function handleUpload(evt) {
     evt.preventDefault();
-    console.log("OPEN");
     widget.current = window.cloudinary.createUploadWidget(
       {
         cloudName: "dmkcfie45",

@@ -1,10 +1,11 @@
 import { BiUser } from "react-icons/bi";
+import { NavLink } from "react-router-dom";
 import { useBoolean } from "../hooks";
 import { Image } from "./image";
 import Preview from "./preview";
 import CloudinaryUploadWidget from "./upload-profile-pic";
 
-export default function ProfileHeader({ user, actionsBar, navbar }) {
+export function ProfileHeader({ user, actionsBar }) {
   const [profilePicMenu, { toggle: toggleProfilePicMenu }] = useBoolean(false);
   const [viewProfilePic, { toggle: toggleViewProfilePic }] = useBoolean(false);
 
@@ -56,7 +57,30 @@ export default function ProfileHeader({ user, actionsBar, navbar }) {
         </div>
         <hr className="my-4 w-7/12 mx-auto" />
         <div className="w-8/12 px-10 mx-auto">
-          <nav>{navbar}</nav>
+          <nav>
+            <NavLink to={`/${user.id}`}>
+              {({ isActive }) => (
+                <span
+                  className={`px-5 pb-4 inline-block ${
+                    isActive ? "text-blue-500 transition-all" : undefined
+                  }`}
+                >
+                  Posts
+                </span>
+              )}
+            </NavLink>
+            <NavLink to={`/${user.id}/about`}>
+              {({ isActive }) => (
+                <span
+                  className={`px-5 pb-4 inline-block ${
+                    isActive ? "text-blue-500 transition-all" : undefined
+                  }`}
+                >
+                  About
+                </span>
+              )}
+            </NavLink>
+          </nav>
         </div>
       </section>
       {viewProfilePic ? (
