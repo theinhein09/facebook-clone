@@ -140,7 +140,10 @@ export class Feeds {
   static getRealTimeFeeds(set) {
     const q = query(
       this.collectionRef,
-      where("subscribers", "array-contains-any", ["all", Auth.currentUser.uid]),
+      where("subscribers", "array-contains-any", [
+        "all",
+        Auth.auth.currentUser.uid,
+      ]),
       orderBy("timestamp", "desc"),
       limit(2)
     );
@@ -164,7 +167,10 @@ export class Feeds {
   static async getNextFeeds() {
     const q = query(
       this.collectionRef,
-      where("subscribers", "array-contains-any", ["all", Auth.currentUser.uid]),
+      where("subscribers", "array-contains-any", [
+        "all",
+        Auth.auth.currentUser.uid,
+      ]),
       orderBy("timestamp", "desc"),
       startAfter(this.lastVisible),
       limit(2)

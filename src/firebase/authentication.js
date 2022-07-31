@@ -52,8 +52,6 @@ export const auth = {
 export class Auth {
   static auth = getAuth(app);
 
-  static currentUser = this.auth.currentUser;
-
   static async signIn(email, password) {
     await setPersistence(this._auth, browserSessionPersistence);
     const userCredential = await signInWithEmailAndPassword(
@@ -66,7 +64,7 @@ export class Auth {
 
   static async signUp(email, password) {
     const userCredential = await createUserWithEmailAndPassword(
-      this._auth,
+      this.auth,
       email,
       password
     );
