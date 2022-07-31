@@ -1,41 +1,21 @@
-import { arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { NavLink, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Feed, FeedSkeleton } from ".";
-import { Layout } from "../components/layout";
 import { ProfileLayout } from "../components/profile-layout";
-import { useUserContextState } from "../contexts/user-context";
-import { Feeds, Users } from "../firebase/firestore";
+import { Feeds } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 
 export function Profile() {
   const { userId } = useParams();
-  const [profile, setProfile] = useState({});
-  const { user } = useUserContextState();
-  const [disabledBtn, { off }] = useBoolean(false);
+
   const [feeds, setFeeds] = useState([]);
   const [hasMore, { off: offHasMore }] = useBoolean(true);
-
-  useEffect(() => {
-    async function fetchProfile() {
-      const data = await Users.getUserById(userId);
-      setProfile(data);
-    }
-    fetchProfile();
-  }, [userId]);
 
   useEffect(() => {
     const unsubscribe = Feeds.getRealTimeFeedsByUserId(setFeeds, userId);
     return () => unsubscribe();
   }, [userId]);
-
-  async function handleAddFriend() {
-    await Users.updateUser(profile.id, {
-      pendingRequests: arrayUnion(user.id),
-    });
-    off();
-  }
 
   async function fetchMoreFeeds() {
     const nextFeeds = await Feeds.getNextFeedsByUserId(userId);
@@ -44,23 +24,7 @@ export function Profile() {
   }
 
   return (
-    <ProfileLayout
-      user={profile}
-      actionsBar={
-        profile.subscribers &&
-        !profile.subscribers.includes(user.id) &&
-        profile.pendingRequests &&
-        !profile.pendingRequests.includes(user.id) ? (
-          <button
-            onClick={handleAddFriend}
-            disabled={disabledBtn}
-            className="bg-blue-500 px-4 py-1 text-sm shadow-md hover:shadow-lg hover:bg-blue-400 rounded text-white font-medium"
-          >
-            Add Friend
-          </button>
-        ) : null
-      }
-    >
+    <ProfileLayout>
       <section>
         <InfiniteScroll
           dataLength={feeds.length}

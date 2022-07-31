@@ -12,7 +12,7 @@ export function ProfileHeader({ user, actionsBar }) {
   return (
     <>
       <section className="w-full mx-auto bg-white shadow">
-        <div className="w-8/12 bg-neutral-300 h-96 mx-auto rounded-b-xl"></div>
+        <div className="w-8/12 h-96 mx-auto rounded-b-xl bg-gradient-to-t from-black to-neutral-300"></div>
         <div className="w-8/12 mx-auto flex items-end -mt-[75px] px-10">
           <div className="relative">
             <button
@@ -58,7 +58,7 @@ export function ProfileHeader({ user, actionsBar }) {
         <hr className="my-4 w-7/12 mx-auto" />
         <div className="w-8/12 px-10 mx-auto">
           <nav>
-            <NavLink to={`/${user.id}`}>
+            <NavLink to={`/${user.id}/posts`}>
               {({ isActive }) => (
                 <span
                   className={`px-5 pb-4 inline-block ${

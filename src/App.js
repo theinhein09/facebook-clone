@@ -5,6 +5,7 @@ import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
 import { Menu } from "./pages/menu";
 import { Profile } from "./pages/profile";
+import { About } from "./pages/about";
 
 function App() {
   return (
@@ -35,14 +36,24 @@ function App() {
               </PrivateRoute>
             }
           />
-          <Route
-            path=":userId"
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
+          <Route path=":userId">
+            <Route
+              path="posts"
+              element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="about"
+              element={
+                <PrivateRoute>
+                  <About />
+                </PrivateRoute>
+              }
+            />
+          </Route>
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>

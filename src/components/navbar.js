@@ -109,7 +109,7 @@ export function Navbar() {
         <li
           role="menuitem"
           className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer shadow-lg ring-1 ring-neutral-100"
-          onClick={() => navigate(`/${user.id}`)}
+          onClick={() => navigate(`/${user.id}/posts`)}
         >
           <User user={user} />
         </li>
