@@ -22,6 +22,8 @@ import { app } from "./init";
 const db = getFirestore(app);
 
 export class Users {
+  static collectionRef = collection(db, "users");
+
   static async getUserById(id) {
     const ref = doc(db, "users", id);
     const user = await getDoc(ref);
@@ -36,8 +38,10 @@ export class Users {
 
   static async getUsersByUsername(username) {
     const lowercaseUsername = username.toLowerCase();
-    const ref = collection(db, "users");
-    const q = query(ref, where("username-sl", "==", lowercaseUsername));
+    const q = query(
+      this.collectionRef,
+      where("username-sl", "==", lowercaseUsername)
+    );
     const users = await getDocs(q);
     return users.docs.map((user) => ({
       id: user.id,
@@ -46,8 +50,10 @@ export class Users {
   }
 
   static async addUser(user) {
-    const ref = collection(db, "users");
-    return await addDoc(ref, { ...user, timestamp: serverTimestamp() });
+    return await addDoc(this.collectionRef, {
+      ...user,
+      timestamp: serverTimestamp(),
+    });
   }
 
   static async setUser(id, user) {
@@ -82,6 +88,7 @@ export class Users {
 }
 
 export class Feeds {
+  static collectionRef = collection(db, "feeds");
   static lastVisible = null;
 
   static async getFeedById(id) {
@@ -97,9 +104,8 @@ export class Feeds {
   }
 
   static async getFeedsByUserId(userId) {
-    const ref = collection(db, "feeds");
     const q = query(
-      ref,
+      this.collectionRef,
       where("publisher", "==", userId),
       orderBy("timestamp", "desc"),
       limit(2)
@@ -112,13 +118,14 @@ export class Feeds {
   }
 
   static async addFeed(feed) {
-    const ref = collection(db, "feeds");
-    return await addDoc(ref, { ...feed, timestamp: serverTimestamp() });
+    return await addDoc(this.collectionRef, {
+      ...feed,
+      timestamp: serverTimestamp(),
+    });
   }
 
   static async deleteFeed(id) {
-    const ref = collection(db, "feeds", id);
-    await deleteDoc(ref);
+    await deleteDoc(this.collectionRef);
   }
 
   static async updateFeed(id, data) {
@@ -131,9 +138,8 @@ export class Feeds {
   }
 
   static getRealTimeFeeds(set) {
-    const ref = collection(db, "feeds");
     const q = query(
-      ref,
+      this.collectionRef,
       where("subscribers", "array-contains-any", [
         "all",
         auth._auth.currentUser.uid,
@@ -159,9 +165,8 @@ export class Feeds {
   }
 
   static async getNextFeeds() {
-    const ref = collection(db, "feeds");
     const q = query(
-      ref,
+      this.collectionRef,
       where("subscribers", "array-contains-any", [
         "all",
         auth._auth.currentUser.uid,
