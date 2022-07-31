@@ -53,9 +53,9 @@ export class Auth {
   static auth = getAuth(app);
 
   static async signIn(email, password) {
-    await setPersistence(this._auth, browserSessionPersistence);
+    await setPersistence(this.auth, browserSessionPersistence);
     const userCredential = await signInWithEmailAndPassword(
-      this._auth,
+      this.auth,
       email,
       password
     );

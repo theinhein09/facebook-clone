@@ -155,7 +155,7 @@ export class Feeds {
         const feed = {
           id: snapshot.id,
           ...snapshot.data(),
-          publisher: Users.getUserById(snapshot.data().publisher),
+          publisher: await Users.getUserById(snapshot.data().publisher),
         };
         feeds.push(feed);
       }
@@ -182,7 +182,7 @@ export class Feeds {
       feeds.push({
         id: feed.id,
         ...feed.data(),
-        publisher: Users.getUserById(feed.data().publisher),
+        publisher: await Users.getUserById(feed.data().publisher),
       });
     }
     return feeds;

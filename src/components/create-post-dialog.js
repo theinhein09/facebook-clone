@@ -36,6 +36,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
       text: "",
       type: "public",
     });
+    toggleCreatePost();
   }
 
   function handleChange({ target }) {
