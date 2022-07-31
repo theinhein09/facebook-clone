@@ -1,7 +1,8 @@
 import { arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { NavLink, useParams } from "react-router-dom";
-import { Feed } from ".";
+import { Feed, FeedSkeleton } from ".";
 import { Layout } from "../components/layout";
 import ProfileHeader from "../components/profile-header";
 import { useUserContextState } from "../contexts/user-context";
@@ -14,6 +15,7 @@ export function Profile() {
   const { user } = useUserContextState();
   const [disabledBtn, { off }] = useBoolean(false);
   const [feeds, setFeeds] = useState([]);
+  const [hasMore, { off: offHasMore }] = useBoolean(true);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -24,7 +26,8 @@ export function Profile() {
   }, [userId]);
 
   useEffect(() => {
-    Feeds.getRealTimeFeedsByUserId(setFeeds, userId);
+    const unsubscribe = Feeds.getRealTimeFeedsByUserId(setFeeds, userId);
+    return () => unsubscribe();
   }, [userId]);
 
   async function handleAddFriend() {
@@ -32,6 +35,12 @@ export function Profile() {
       pendingRequests: arrayUnion(user.id),
     });
     off();
+  }
+
+  async function fetchMoreFeeds() {
+    const nextFeeds = await Feeds.getNextFeedsByUserId(userId);
+    setFeeds([...feeds, ...nextFeeds]);
+    if (nextFeeds.length === 0) offHasMore();
   }
 
   return (
@@ -80,9 +89,22 @@ export function Profile() {
         }
       />
       <section>
-        {feeds.map((feed) => (
-          <Feed key={feed.id} feed={feed} />
-        ))}
+        <InfiniteScroll
+          dataLength={feeds.length}
+          next={fetchMoreFeeds}
+          hasMore={hasMore}
+          loader={
+            <>
+              <FeedSkeleton />
+              <FeedSkeleton />
+            </>
+          }
+          scrollThreshold={1}
+        >
+          {feeds.map((feed) => (
+            <Feed key={feed.id} feed={feed} />
+          ))}
+        </InfiniteScroll>
       </section>
     </Layout>
   );

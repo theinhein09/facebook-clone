@@ -161,7 +161,7 @@ export function Feed({ feed }) {
   );
 }
 
-function FeedSkeleton() {
+export function FeedSkeleton() {
   return (
     <div className="max-w-2xl h-80 shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white mx-auto py-3 mb-4">
       <div className="flex gap-2 px-2 mb-2">

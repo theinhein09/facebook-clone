@@ -90,6 +90,7 @@ export class Users {
 export class Feeds {
   static collectionRef = collection(db, "feeds");
   static lastVisible = null;
+  static lastVisibleFeedByUserId = null;
 
   static async getFeedById(id) {
     const ref = doc(db, "feeds", id);
@@ -192,11 +193,16 @@ export class Feeds {
     const q = query(
       this.collectionRef,
       where("publisher", "==", userId),
+      where("subscribers", "array-contains-any", [
+        "all",
+        Auth.auth.currentUser.uid,
+      ]),
       orderBy("timestamp", "desc"),
       limit(2)
     );
 
     const unsubscribe = onSnapshot(q, async (snapshots) => {
+      this.lastVisibleFeedByUserId = snapshots.docs[snapshots.docs.length - 1];
       this.lastVisible = snapshots.docs[snapshots.docs.length - 1];
       const feeds = [];
       for (let snapshot of snapshots.docs) {
@@ -210,5 +216,30 @@ export class Feeds {
       set(feeds);
     });
     return unsubscribe;
+  }
+
+  static async getNextFeedsByUserId(userId) {
+    const q = query(
+      this.collectionRef,
+      where("publisher", "==", userId),
+      where("subscribers", "array-contains-any", [
+        "all",
+        Auth.auth.currentUser.uid,
+      ]),
+      orderBy("timestamp", "desc"),
+      startAfter(this.lastVisibleFeedByUserId),
+      limit(2)
+    );
+    const nextFeeds = await getDocs(q);
+    this.lastVisibleFeedByUserId = nextFeeds.docs[nextFeeds.docs.length - 1];
+    const feeds = [];
+    for (let feed of nextFeeds.docs) {
+      feeds.push({
+        id: feed.id,
+        ...feed.data(),
+        publisher: await Users.getUserById(feed.data().publisher),
+      });
+    }
+    return feeds;
   }
 }
