@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/modal";
 import { Dialog } from "../components/dialog";
 import { auth } from "../firebase/authentication";
 import { useBoolean } from "../hooks";
 import { months, days, years } from "../utils";
-import { FS } from "../firebase/firestore";
+import { Users } from "../firebase/firestore";
 
 const today = new Date();
 export function Login() {
@@ -61,8 +61,7 @@ export function Login() {
       timestamp: "",
       profileUrl: "default_avatar_xuum5f.jpg",
     };
-    const usersFS = new FS("users");
-    await usersFS.setDoc(user.uid, formattedUser);
+    await Users.setUser(user.uid, formattedUser);
     navigate("/");
   }
 

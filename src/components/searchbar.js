@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FS } from "../firebase/firestore";
+import { Users } from "../firebase/firestore";
 import { User } from "./user";
 import { GoSearch } from "react-icons/go";
 import { Link } from "react-router-dom";
@@ -13,8 +13,7 @@ export function Searchbar(params) {
 
   useEffect(() => {
     async function searchUsers() {
-      const usersFS = new FS("users");
-      const results = await usersFS.getDocs(username.toLowerCase());
+      const results = await Users.getUsersByUsername(username);
       setUsers(results);
     }
     searchUsers();

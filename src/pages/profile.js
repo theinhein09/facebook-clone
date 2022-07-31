@@ -2,7 +2,7 @@ import { arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUserContextState } from "../contexts/user-context";
-import { FS } from "../firebase/firestore";
+import { Users } from "../firebase/firestore";
 
 export function Profile() {
   const { userId } = useParams();
@@ -11,8 +11,7 @@ export function Profile() {
 
   useEffect(() => {
     async function fetchProfile() {
-      const usersFS = new FS("users");
-      const data = await usersFS.getDoc(userId);
+      const data = await Users.getUserById(userId);
       setProfile(data);
     }
 
@@ -20,8 +19,7 @@ export function Profile() {
   }, [userId]);
 
   async function handleAddFriend() {
-    const usersFS = new FS("users");
-    await usersFS.updateDoc(id, {
+    await Users.updateUser(id, {
       pendingRequests: arrayUnion(user.id),
     });
   }

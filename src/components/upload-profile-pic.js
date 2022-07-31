@@ -4,7 +4,7 @@ import {
   useUserContextState,
   useUserContextUpdater,
 } from "../contexts/user-context";
-import { FS } from "../firebase/firestore";
+import { Users } from "../firebase/firestore";
 
 export default function CloudinaryUploadWidget() {
   const { user } = useUserContextState();
@@ -56,11 +56,10 @@ export default function CloudinaryUploadWidget() {
       async (error, result) => {
         if (!error && result && result.event === "success") {
           console.log("Done! Here is the image info: ", result.info);
-          const users = new FS("users");
-          await users.updateDoc(user.id, {
+          await Users.updateUser(user.id, {
             profileUrl: result.info.public_id,
           });
-          setUser(await users.getDoc(user.id));
+          setUser(await Users.getUserById(user.id));
         }
       }
     );

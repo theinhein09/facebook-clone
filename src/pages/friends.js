@@ -3,31 +3,28 @@ import { useEffect, useState } from "react";
 import { Layout } from "../components/layout";
 import { User } from "../components/user";
 import { useUserContextState } from "../contexts/user-context";
-import { FS } from "../firebase/firestore";
+import { Users } from "../firebase/firestore";
 
 export function Friends() {
   const [requests, setRequests] = useState([]);
   const { user } = useUserContextState();
 
   useEffect(() => {
-    const usersFS = new FS("users");
-    usersFS.onSnapshot(setRequests, user.id);
+    Users.getRealtimePendingRequests(setRequests, user.id);
   }, [user.id]);
 
   async function handleAccept(id) {
-    const usersFS = new FS("users");
-    usersFS.updateDoc(user.id, {
+    Users.updateUser(user.id, {
       subscribers: arrayUnion(id),
       pendingRequests: arrayRemove(id),
     });
-    usersFS.updateDoc(id, {
+    Users.updateUser(id, {
       subscribers: arrayUnion(user.id),
     });
   }
 
   async function handleDecline(id) {
-    const usersFS = new FS("users");
-    usersFS.updateDoc(user.id, {
+    Users.updateUser(user.id, {
       pendingRequests: arrayRemove(id),
     });
   }
