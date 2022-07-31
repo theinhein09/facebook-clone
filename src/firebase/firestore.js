@@ -137,7 +137,7 @@ export class Feeds {
     });
   }
 
-  static getRealTimeFeeds(set) {
+  static getRealTimeFeedsBySubscribers(set) {
     const q = query(
       this.collectionRef,
       where("subscribers", "array-contains-any", [
@@ -164,7 +164,7 @@ export class Feeds {
     return unsubscribe;
   }
 
-  static async getNextFeeds() {
+  static async getNextFeedsBySubscribers() {
     const q = query(
       this.collectionRef,
       where("subscribers", "array-contains-any", [
@@ -186,5 +186,29 @@ export class Feeds {
       });
     }
     return feeds;
+  }
+
+  static getRealTimeFeedsByUserId(set, userId) {
+    const q = query(
+      this.collectionRef,
+      where("publisher", "==", userId),
+      orderBy("timestamp", "desc"),
+      limit(2)
+    );
+
+    const unsubscribe = onSnapshot(q, async (snapshots) => {
+      this.lastVisible = snapshots.docs[snapshots.docs.length - 1];
+      const feeds = [];
+      for (let snapshot of snapshots.docs) {
+        const feed = {
+          id: snapshot.id,
+          ...snapshot.data(),
+          publisher: await Users.getUserById(snapshot.data().publisher),
+        };
+        feeds.push(feed);
+      }
+      set(feeds);
+    });
+    return unsubscribe;
   }
 }

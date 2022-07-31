@@ -1,10 +1,11 @@
 import { arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
+import { Feed } from ".";
 import { Layout } from "../components/layout";
 import ProfileHeader from "../components/profile-header";
 import { useUserContextState } from "../contexts/user-context";
-import { Users } from "../firebase/firestore";
+import { Feeds, Users } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 
 export function Profile() {
@@ -12,6 +13,7 @@ export function Profile() {
   const [profile, setProfile] = useState({});
   const { user } = useUserContextState();
   const [disabledBtn, { off }] = useBoolean(false);
+  const [feeds, setFeeds] = useState([]);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -19,6 +21,10 @@ export function Profile() {
       setProfile(data);
     }
     fetchProfile();
+  }, [userId]);
+
+  useEffect(() => {
+    Feeds.getRealTimeFeedsByUserId(setFeeds, userId);
   }, [userId]);
 
   async function handleAddFriend() {
@@ -46,7 +52,38 @@ export function Profile() {
             </button>
           ) : null
         }
+        navbar={
+          <nav>
+            <NavLink to={`/${userId}`}>
+              {({ isActive }) => (
+                <span
+                  className={`px-5 pb-4 inline-block ${
+                    isActive ? "text-blue-500 transition-all" : undefined
+                  }`}
+                >
+                  Posts
+                </span>
+              )}
+            </NavLink>
+            <NavLink to={`/${userId}/about`}>
+              {({ isActive }) => (
+                <span
+                  className={`px-5 pb-4 inline-block ${
+                    isActive ? "text-blue-500 transition-all" : undefined
+                  }`}
+                >
+                  About
+                </span>
+              )}
+            </NavLink>
+          </nav>
+        }
       />
+      <section>
+        {feeds.map((feed) => (
+          <Feed key={feed.id} feed={feed} />
+        ))}
+      </section>
     </Layout>
   );
 }

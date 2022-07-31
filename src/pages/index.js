@@ -49,12 +49,12 @@ export function Home() {
   const [createPost, { toggle: toggleCreatePost }] = useBoolean(false);
 
   useEffect(() => {
-    const unsubscribe = Feeds.getRealTimeFeeds(setFeeds);
+    const unsubscribe = Feeds.getRealTimeFeedsBySubscribers(setFeeds);
     return () => unsubscribe();
   }, []);
 
   async function fetchMoreFeeds() {
-    const nextFeeds = await Feeds.getNextFeeds();
+    const nextFeeds = await Feeds.getNextFeedsBySubscribers();
     setFeeds([...feeds, ...nextFeeds]);
     if (nextFeeds.length === 0) off();
   }
@@ -125,7 +125,7 @@ function convertTime(time) {
   return `${months[month]} ${date} at ${formattedHrs}:${minutes} ${ap}`;
 }
 
-function Feed({ feed }) {
+export function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
     <article className="mx-auto max-w-2xl shadow-lg rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">

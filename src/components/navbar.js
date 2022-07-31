@@ -26,7 +26,7 @@ export function Navbar() {
 
   return (
     <>
-      <nav className="shadow-md sticky top-0 w-full bg-white top-0 z-50 flex px-5">
+      <nav className="shadow-md sticky w-full bg-white top-0 z-50 flex px-5">
         <section className="flex items-center w-1/6 gap-2">
           <div className="w-10 h-10 flex-none">
             <img src={logo} alt="logo" width={40} height={40} />
