@@ -3,7 +3,7 @@ import { Cloudinary } from "@cloudinary/url-gen";
 
 // Import required actions and qualifiers.
 import { thumbnail } from "@cloudinary/url-gen/actions/resize";
-import { byRadius } from "@cloudinary/url-gen/actions/roundCorners";
+import { max } from "@cloudinary/url-gen/actions/roundCorners";
 import { face } from "@cloudinary/url-gen/qualifiers/focusOn";
 import { focusOn } from "@cloudinary/url-gen/qualifiers/gravity";
 import { useBoolean } from "../hooks";
@@ -37,7 +37,7 @@ export function Image({ publicId, transform }) {
         .resize(
           thumbnail().width(width).height(height).gravity(focusOn(face()))
         )
-        .roundCorners(byRadius(100));
+        .roundCorners(max());
 
       return <AdvancedImage cldImg={transformedImage} />;
     } else if (type === "preview") {
