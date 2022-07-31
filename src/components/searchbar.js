@@ -35,12 +35,12 @@ export function Searchbar(params) {
         autoComplete="username"
         className="bg-neutral-100 pl-10 rounded-full h-10 shadow"
       />
-      <SearchResults results={users} />
+      <SearchResults results={users} setResults={setUsers} />
     </div>
   );
 }
 
-function SearchResults({ results }) {
+function SearchResults({ results, setResults }) {
   return (
     <aside
       className={`absolute mt-3 bg-white ring-1 ring-neutral-100 shadow-xl rounded min-w-[300px] transition-all ${
@@ -48,9 +48,7 @@ function SearchResults({ results }) {
       }`}
     >
       {results.map((result) => (
-        <Link key={result.id} to={`/${result.id}/posts`}>
-          <User user={result} />
-        </Link>
+        <User user={result} key={result.id} />
       ))}
     </aside>
   );
