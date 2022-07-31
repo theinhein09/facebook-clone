@@ -81,39 +81,6 @@ export class FS {
     return await setDoc(ref, { ...data, timestamp: serverTimestamp() });
   }
 
-  onSnapshot(set, docId) {
-    let unsubscribe;
-    switch (this.collection) {
-      case "feeds":
-        const feedsRef = collection(db, this.collection);
-        const q = query(
-          feedsRef,
-          where("subscribers", "array-contains-any", [
-            "all",
-            auth._auth.currentUser.uid,
-          ]),
-          orderBy("timestamp", "desc"),
-          limit(2)
-        );
-        unsubscribe = onSnapshot(q, async (feeds) => {
-          const data = await fetchPublisher(feeds.docs);
-          const lastVisible = feeds.docs[feeds.docs.length - 1];
-          this.lastVisible = lastVisible;
-          set(data);
-        });
-        return unsubscribe;
-      case "users":
-        const ref = doc(db, this.collection, docId);
-        unsubscribe = onSnapshot(ref, async (user) => {
-          const users = await fetchUsers(user.data().pendingRequests);
-          set(users);
-        });
-        return unsubscribe;
-      default:
-        return new Error("ERROR");
-    }
-  }
-
   async deleteDoc(id) {
     const ref = doc(db, this.collection, id);
     await deleteDoc(ref);
@@ -208,4 +175,79 @@ export class Users {
   }
 }
 
-export const usersFS = new Users();
+export class Feeds {
+  static lastVisible = null;
+
+  static async addFeed(feed) {
+    const ref = collection(db, "feeds");
+    return await addDoc(ref, { ...feed, timestamp: serverTimestamp() });
+  }
+
+  static async deleteFeed(id) {
+    const ref = collection(db, "feeds", id);
+    await deleteDoc(ref);
+  }
+
+  static async updateFeed(id, data) {
+    const ref = doc(db, "feeds", id);
+    await updateDoc(ref, {
+      ...data,
+      timestamp: serverTimestamp(),
+      edited: true,
+    });
+  }
+
+  static getRealTimeFeeds(set) {
+    const ref = collection(db, "feeds");
+    const q = query(
+      ref,
+      where("subscribers", "array-contains-any", [
+        "all",
+        auth._auth.currentUser.uid,
+      ]),
+      orderBy("timestamp", "desc"),
+      limit(2)
+    );
+
+    const unsubscribe = onSnapshot(q, async (snapshots) => {
+      this.lastVisible = snapshots.docs[snapshots.docs.length - 1];
+      const feeds = [];
+      for (let snapshot of snapshots.docs) {
+        const feed = {
+          id: snapshot.id,
+          ...snapshot.data(),
+          publisher: Users.getUserById(snapshot.data().publisher),
+        };
+        feeds.push(feed);
+      }
+      set(feeds);
+    });
+    return unsubscribe;
+  }
+
+  static async getNextFeeds() {
+    const ref = collection(db, "feeds");
+    const q = query(
+      ref,
+      where("subscribers", "array-contains-any", [
+        "all",
+        auth._auth.currentUser.uid,
+      ]),
+      orderBy("timestamp", "desc"),
+      startAfter(this.lastVisible),
+      limit(2)
+    );
+    const nextFeeds = await getDocs(q);
+    this.lastVisible = nextFeeds.docs[nextFeeds.docs.length - 1];
+    const feeds = [];
+    for (let feed of nextFeeds.docs) {
+      feeds.push({
+        id: feed.id,
+        ...feed.data(),
+        publisher: Users.getUserById(feed.data().publisher),
+      });
+    }
+
+    return feeds;
+  }
+}

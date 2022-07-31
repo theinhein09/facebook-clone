@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GoChevronDown } from "react-icons/go";
-import { FS } from "../firebase/firestore";
+import { Feeds } from "../firebase/firestore";
 import { useBoolean } from "../hooks";
 import { Dialog } from "./dialog";
 import { Modal } from "./modal";
@@ -16,8 +16,7 @@ export function FeedOptionsMenu({ feed }) {
   }
 
   async function handleDelete() {
-    const feedsFS = new FS("feeds");
-    await feedsFS.deleteDoc(feed.id);
+    await Feeds.deleteFeed(feed.id);
     toggleOptionsMenu();
   }
 
@@ -26,8 +25,7 @@ export function FeedOptionsMenu({ feed }) {
   }
 
   async function handleEditingFeed() {
-    const feedsFS = new FS("feeds");
-    await feedsFS.updateDoc(feed.id, editingFeed);
+    await Feeds.updateFeed(feed.id, editingFeed);
     toggleFeedEditor();
   }
 

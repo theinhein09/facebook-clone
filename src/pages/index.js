@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Layout } from "../components/layout";
-import { FS } from "../firebase/firestore";
+import { Feeds } from "../firebase/firestore";
 import { User } from "../components/user";
 import { useUserContextState } from "../contexts/user-context";
 import { FeedOptionsMenu } from "../components/feed-options-menu";
@@ -45,17 +45,16 @@ const testFeeds = [
 export function Home() {
   const { user } = useUserContextState();
   const [feeds, setFeeds] = useState([]);
-  const feedsFSRef = useRef(new FS("feeds"));
   const [hasMore, { off }] = useBoolean(true);
   const [createPost, { toggle: toggleCreatePost }] = useBoolean(false);
 
   useEffect(() => {
-    const unsubscribe = feedsFSRef.current.onSnapshot(setFeeds);
+    const unsubscribe = Feeds.getRealTimeFeeds(setFeeds);
     return () => unsubscribe();
   }, []);
 
   async function fetchMoreFeeds() {
-    const nextFeeds = await feedsFSRef.current.getNextDocs();
+    const nextFeeds = await Feeds.getNextFeeds();
     setFeeds([...feeds, ...nextFeeds]);
     if (nextFeeds.length === 0) off();
   }

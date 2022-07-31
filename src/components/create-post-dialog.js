@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { useUserContextState } from "../contexts/user-context";
-import { FS } from "../firebase/firestore";
+import { Feeds } from "../firebase/firestore";
 import { Dialog } from "./dialog";
 import { Modal } from "./modal";
 import CloudinaryUploadWidget from "./upload";
@@ -14,7 +14,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
     type: "public",
   });
 
-  function getSubscribers(type, subscribers) {
+  function getSubscribers(type) {
     switch (type) {
       case "public":
         return ["all"];
@@ -27,8 +27,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const feedsFS = new FS("feeds");
-    await feedsFS.addDoc({
+    await Feeds.addFeed({
       ...post,
       subscribers: getSubscribers(post.type),
       publisher: user.id,
