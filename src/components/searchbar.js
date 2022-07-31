@@ -48,7 +48,7 @@ function SearchResults({ results }) {
       }`}
     >
       {results.map((result) => (
-        <Link key={result.id} to={`${result.id}`}>
+        <Link key={result.id} to={`/${result.id}`}>
           <User user={result} />
         </Link>
       ))}
