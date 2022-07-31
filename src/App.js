@@ -3,7 +3,6 @@ import { Login } from "./pages/login";
 import { Home } from "./pages";
 import { PrivateRoute } from "./components/private-route";
 import { Friends } from "./pages/friends";
-import { Menu } from "./pages/menu";
 import { Profile } from "./pages/profile";
 import { About } from "./pages/about";
 
@@ -25,14 +24,6 @@ function App() {
             element={
               <PrivateRoute>
                 <Friends />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="menu"
-            element={
-              <PrivateRoute>
-                <Menu />
               </PrivateRoute>
             }
           />

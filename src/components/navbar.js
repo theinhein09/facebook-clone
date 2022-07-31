@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { IoMdHome, IoMdNotifications, IoMdMenu } from "react-icons/io";
+import { IoMdHome, IoMdNotifications } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { Searchbar } from "./searchbar";
 import { useUserContextState } from "../contexts/user-context";
@@ -70,24 +70,6 @@ export function Navbar() {
               )}
             </NavLink>
           </li>
-          <li role="menuitem" className="inline-block px-3 py-1">
-            <NavLink to="/menu">
-              {({ isActive }) => (
-                <span
-                  className={
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }
-                >
-                  <IoMdMenu
-                    className={`text-2xl mx-auto ${
-                      isActive ? "text-blue-500 transition-all" : undefined
-                    }`}
-                  />
-                  Menu
-                </span>
-              )}
-            </NavLink>
-          </li>
         </menu>
         <section className="w-1/6 px-3 flex items-center justify-end">
           <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2">
@@ -108,7 +90,7 @@ export function Navbar() {
       >
         <li
           role="menuitem"
-          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer shadow-lg ring-1 ring-neutral-100"
+          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md mt-1 mb-3 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer shadow-lg ring-1 ring-neutral-100"
           onClick={() => navigate(`/${user.id}/posts`)}
         >
           <User user={user} />
