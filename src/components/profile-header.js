@@ -4,7 +4,7 @@ import { useUserContextState } from "../contexts/user-context";
 import { useBoolean } from "../hooks";
 import { Image } from "./image";
 import Preview from "./preview";
-import { CloudinaryUploadWidget } from "./upload";
+import { CloudinaryUploadWidget } from "./cloudinary-upload-widget";
 
 export function ProfileHeader({ user, actionsBar }) {
   const { user: currentUser } = useUserContextState();

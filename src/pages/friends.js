@@ -1,6 +1,5 @@
 import { arrayRemove, arrayUnion } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { Layout } from "../components/layout";
 import { User } from "../components/user";
 import { useUserContextState } from "../contexts/user-context";

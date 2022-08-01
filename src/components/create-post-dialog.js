@@ -4,7 +4,7 @@ import { useUserContextState } from "../contexts/user-context";
 import { Feeds } from "../firebase/firestore";
 import { Dialog } from "./dialog";
 import { Modal } from "./modal";
-import { CloudinaryUploadWidget } from "./upload";
+import { CloudinaryUploadWidget } from "./cloudinary-upload-widget";
 import { User } from "./user";
 
 export function CreatePostDialog({ toggleCreatePost }) {
