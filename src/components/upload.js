@@ -1,54 +1,34 @@
 import { useEffect, useRef } from "react";
+import { CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG } from "../utils";
 
-function createWidget(folder) {
+function createWidget({ options, type }) {
   const media = [];
-  const defaultOptions = {
-    folder,
-    cloudName: "dmkcfie45",
-    uploadPreset: "sssaoyjo",
-    multiple: true,
-    maxFiles: 5,
-    defaultSource: "local",
-    clientAllowedFormats: ["webp", "gif", "jpg", "png", "jpeg"],
-    resourceType: "image",
-    showAdvancedOptions: false,
-    styles: {
-      palette: {
-        window: "#ffffff",
-        sourceBg: "#f4f4f5",
-        windowBorder: "#90a0b3",
-        tabIcon: "#000000",
-        inactiveTabIcon: "#555a5f",
-        menuIcons: "#555a5f",
-        link: "#0094EC",
-        action: "#339933",
-        inProgress: "#0433ff",
-        complete: "#339933",
-        error: "#cc0000",
-        textDark: "#000000",
-        textLight: "#fcfffd",
-      },
-      fonts: {
-        default: null,
-        "'Poppins', sans-serif": {
-          url: "https://fonts.googleapis.com/css?family=Poppins",
-          active: true,
-        },
-      },
-    },
-  };
-  return {
-    widget: window.cloudinary.createUploadWidget(
-      defaultOptions,
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
-          media.push(result.info.public_id);
-        }
-      }
-    ),
-    media,
-  };
+  switch (type) {
+    case "feed-images":
+      const config = {
+        ...CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG,
+        folder: options.folder,
+        multiple: true,
+        maxFiles: 5,
+        clientAllowedFormats: ["webp", "gif", "jpg", "png", "jpeg"],
+        resourceType: "image",
+      };
+
+      return {
+        widget: window.cloudinary.createUploadWidget(
+          config,
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              console.log("Done! Here is the image info: ", result.info);
+              media.push(result.info.public_id);
+            }
+          }
+        ),
+        media,
+      };
+    default:
+      throw new Error("ERROR IN CREATING WIDGET");
+  }
 }
 
 export default function CloudinaryUploadWidget({ setPost, folder }) {
@@ -62,7 +42,10 @@ export default function CloudinaryUploadWidget({ setPost, folder }) {
 
   function handleUpload(evt) {
     evt.preventDefault();
-    const { widget, media } = createWidget(folder);
+    const { widget, media } = createWidget({
+      options: { folder },
+      type: "feed-images",
+    });
 
     widget.current = widget;
     setPost((post) => ({
