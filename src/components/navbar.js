@@ -2,7 +2,10 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoMdHome, IoMdNotifications } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
 import { Searchbar } from "./searchbar";
-import { useUserContextState } from "../contexts/user-context";
+import {
+  useUserContextState,
+  useUserContextUpdater,
+} from "../contexts/user-context";
 import logo from "../assets/images/logo.png";
 import { RiSettings5Fill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
@@ -10,10 +13,18 @@ import { useBoolean } from "../hooks";
 import { Auth } from "../firebase/authentication";
 import { User } from "./user";
 import { Image } from "./image";
+import { Users } from "../firebase/firestore";
+import { useEffect } from "react";
 export function Navbar() {
   const { user } = useUserContextState();
+  const setUser = useUserContextUpdater();
   const [account, { toggle }] = useBoolean(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = Users.getRealtimeCurrentUser(setUser);
+    return () => typeof unsubscribe === "function" && unsubscribe();
+  }, []);
 
   async function handleLogout() {
     try {

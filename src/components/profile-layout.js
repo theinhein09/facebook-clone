@@ -14,11 +14,8 @@ export function ProfileLayout({ children }) {
   const { user } = useUserContextState();
 
   useEffect(() => {
-    async function fetchProfile() {
-      const data = await Users.getUserById(userId);
-      setProfile(data);
-    }
-    fetchProfile();
+    const unsubscribe = Users.getRealtimeUserById(setProfile, userId);
+    return () => unsubscribe();
   }, [userId]);
 
   async function handleAddFriend() {

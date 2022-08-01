@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { TbPhoto } from "react-icons/tb";
-import {
-  useUserContextState,
-  useUserContextUpdater,
-} from "../contexts/user-context";
+import { useUserContextState } from "../contexts/user-context";
 import { Users } from "../firebase/firestore";
 import { CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG } from "../utils";
 

@@ -85,6 +85,23 @@ export class Users {
     });
     return unsubscribe;
   }
+
+  static getRealtimeUserById(set, id) {
+    const ref = doc(db, "users", id);
+    const unsubscribe = onSnapshot(ref, async (user) => {
+      set({ ...user.data(), id: user.id });
+    });
+    return unsubscribe;
+  }
+
+  static getRealtimeCurrentUser(set) {
+    if (!Auth.auth.currentUser) return;
+    const ref = doc(db, "users", Auth.auth.currentUser.uid);
+    const unsubscribe = onSnapshot(ref, async (user) => {
+      set({ ...user.data(), id: user.id });
+    });
+    return unsubscribe;
+  }
 }
 
 export class Feeds {
