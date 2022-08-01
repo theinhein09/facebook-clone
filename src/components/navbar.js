@@ -1,7 +1,7 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { IoMdHome, IoMdNotifications } from "react-icons/io";
 import { FaUsers } from "react-icons/fa";
-import { Searchbar } from "./searchbar";
+import { SearchBtn } from "./searchbar";
 import {
   useUserContextState,
   useUserContextUpdater,
@@ -24,7 +24,7 @@ export function Navbar() {
   useEffect(() => {
     const unsubscribe = Users.getRealtimeCurrentUser(setUser);
     return () => typeof unsubscribe === "function" && unsubscribe();
-  }, []);
+  }, [setUser]);
 
   async function handleLogout() {
     try {
@@ -44,7 +44,7 @@ export function Navbar() {
               <img src={logo} alt="logo" width={40} height={40} />
             </div>
           </Link>
-          <Searchbar />
+          <SearchBtn />
         </section>
         <menu className="flex-grow text-neutral-500 flex justify-center">
           <li role="menuitem" className="inline-block px-3 py-1">
