@@ -1,5 +1,6 @@
 import { FaUsers } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
+import { Users } from "./firebase/firestore";
 
 export const MONTHS = [
   "January",
@@ -179,3 +180,59 @@ export const SIGN_UP_FORM_DOB = [
     options: YEARS(),
   },
 ];
+
+export function createCloudinaryUploadWidget({ options, type }) {
+  let config = {};
+
+  switch (type) {
+    case "feed-images":
+      const media = [];
+
+      config = {
+        ...CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG,
+        folder: options.folder,
+        multiple: true,
+        maxFiles: 5,
+        clientAllowedFormats: ["webp", "gif", "jpg", "png", "jpeg"],
+        resourceType: "image",
+      };
+
+      return {
+        widget: window.cloudinary.createUploadWidget(
+          config,
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              console.log("Done! Here is the image info: ", result.info);
+              media.push(result.info.public_id);
+            }
+          }
+        ),
+        media,
+      };
+    case "profile-pic":
+      let profileUrl;
+      config = {
+        ...CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG,
+        folder: options.folder,
+        cropping: true,
+        clientAllowedFormats: ["webp", "gif", "jpg", "png", "jpeg"],
+        resourceType: "image",
+      };
+      return {
+        widget: window.cloudinary.createUploadWidget(
+          config,
+          async (error, result) => {
+            if (!error && result && result.event === "success") {
+              console.log("Done! Here is the image info: ", result.info);
+              profileUrl = result.info.public_id;
+              await Users.updateUser(options.folder, {
+                profileUrl,
+              });
+            }
+          }
+        ),
+      };
+    default:
+      throw new Error("ERROR IN CREATING WIDGET");
+  }
+}
