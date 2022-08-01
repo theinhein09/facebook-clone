@@ -31,7 +31,7 @@ function Searchbar({ toggle, visible }) {
   const [users, setUsers] = useState([]);
 
   async function handleChange({ target }) {
-    setUsername(target.value);
+    setUsername(target.value.toLowerCase());
   }
 
   useEffect(() => {
