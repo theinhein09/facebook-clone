@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Users } from "../firebase/firestore";
 import { User } from "./user";
 import { GoSearch } from "react-icons/go";
-import { Link } from "react-router-dom";
 export function Searchbar(params) {
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
