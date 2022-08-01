@@ -6,7 +6,7 @@ import {
 } from "../contexts/user-context";
 import { Users } from "../firebase/firestore";
 
-export default function CloudinaryUploadWidget() {
+function CloudinaryUploadWidget() {
   const { user } = useUserContextState();
   const setUser = useUserContextUpdater();
   const widget = useRef(null);

@@ -4,7 +4,7 @@ import { useUserContextState } from "../contexts/user-context";
 import { useBoolean } from "../hooks";
 import { Image } from "./image";
 import Preview from "./preview";
-import CloudinaryUploadWidget from "./upload-profile-pic";
+import { CloudinaryUploadWidget } from "./upload";
 
 export function ProfileHeader({ user, actionsBar }) {
   const { user: currentUser } = useUserContextState();
@@ -49,7 +49,7 @@ export function ProfileHeader({ user, actionsBar }) {
                   role="menuitem"
                   className="py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all"
                 >
-                  <CloudinaryUploadWidget />
+                  <CloudinaryUploadWidget type="profile-pic" />
                 </li>
               ) : null}
             </menu>
