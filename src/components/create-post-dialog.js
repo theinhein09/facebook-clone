@@ -25,8 +25,9 @@ export function CreatePostDialog({ toggleCreatePost }) {
     }
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function handleSubmit(evt) {
+    evt.preventDefault();
+
     await Feeds.addFeed({
       ...post,
       subscribers: getSubscribers(post.type),
@@ -41,6 +42,11 @@ export function CreatePostDialog({ toggleCreatePost }) {
 
   function handleChange({ target }) {
     setPost({ ...post, [target.name]: target.value });
+  }
+
+  function handeSelectClick(evt) {
+    evt.preventDefault();
+    evt.stopPropagation();
   }
 
   function handleDialogClose(evt) {
@@ -72,6 +78,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
                 className="text-xs mr-2 rounded-sm ring-1 ring-neutral-300 bg-neutral-200 px-1"
                 value={post.type}
                 onChange={handleChange}
+                onClick={handeSelectClick}
               >
                 <option value="public">Public</option>
                 <option value="friends-only">Friends only</option>

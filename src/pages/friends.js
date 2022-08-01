@@ -15,6 +15,7 @@ export function Friends() {
   }, [user.id]);
 
   async function handleAccept(id, evt) {
+    evt.preventDefault();
     evt.stopPropagation();
     Users.updateUser(user.id, {
       subscribers: arrayUnion(id),
@@ -26,6 +27,7 @@ export function Friends() {
   }
 
   async function handleDecline(id, evt) {
+    evt.preventDefault();
     evt.stopPropagation();
     Users.updateUser(user.id, {
       pendingRequests: arrayRemove(id),
@@ -39,25 +41,26 @@ export function Friends() {
       </h1>
       <section className="flex flex-col gap-3">
         {requests.map((request) => (
-          <Link key={request.id} to={`/${request.id}/posts`}>
-            <article className="bg-white mx-auto rounded shadow-lg ring-1 ring-neutral-50 w-full max-w-2xl">
-              <User user={request} />
-              <section className="max-w-2xl p-2 text-right">
-                <button
-                  onClick={(evt) => handleAccept(request.id, evt)}
-                  className="bg-blue-500 px-4 py-1 text-sm font-medium text-white rounded shadow-md hover:shadow-lg hover:bg-blue-400 transition-all mr-2"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={(evt) => handleDecline(request.id, evt)}
-                  className="bg-neutral-200 px-4 py-1 text-sm font-medium text-neutral-600 rounded shadow-md hover:shadow-lg hover:bg-neutral-300 transition-all"
-                >
-                  Decline
-                </button>
-              </section>
-            </article>
-          </Link>
+          <article
+            key={request.id}
+            className="bg-white mx-auto rounded shadow-lg ring-1 ring-neutral-50 w-full max-w-2xl"
+          >
+            <User user={request} />
+            <section className="max-w-2xl p-2 text-right">
+              <button
+                onClick={(evt) => handleAccept(request.id, evt)}
+                className="bg-blue-500 px-4 py-1 text-sm font-medium text-white rounded shadow-md hover:shadow-lg hover:bg-blue-400 transition-all mr-2"
+              >
+                Accept
+              </button>
+              <button
+                onClick={(evt) => handleDecline(request.id, evt)}
+                className="bg-neutral-200 px-4 py-1 text-sm font-medium text-neutral-600 rounded shadow-md hover:shadow-lg hover:bg-neutral-300 transition-all"
+              >
+                Decline
+              </button>
+            </section>
+          </article>
         ))}
       </section>
     </Layout>
