@@ -1,27 +1,31 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "../components/modal";
 import { Dialog } from "../components/dialog";
 import { Auth } from "../firebase/authentication";
 import { useBoolean } from "../hooks";
-import { months, days, years } from "../utils";
+import {
+  SIGN_UP_FORM_FIELDS,
+  LOGIN_FORM_FIELDS,
+  SIGN_UP_FORM_GENDERS,
+  SIGN_UP_FORM_DOB,
+  NEW_USER,
+} from "../utils";
 import { Users } from "../firebase/firestore";
-import { GoChevronDown } from "react-icons/go";
 
-const today = new Date();
 export function Login() {
-  const [{ email, password }, setUser] = useState({ email: "", password: "" });
-  const [signUp, { toggle: toggleSignUp }] = useBoolean(false);
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [signUpDialog, { toggle: toggleSignUpDialog }] = useBoolean(false);
   const navigate = useNavigate();
 
   function handleChange({ target }) {
     setUser((user) => ({ ...user, [target.name]: target.value }));
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
+  async function handleSubmit(evt) {
+    evt.preventDefault();
     try {
-      await Auth.signIn(email, password);
+      await Auth.signIn(user.email, user.password);
       navigate("/");
     } catch (err) {
       console.log(err);
@@ -30,7 +34,7 @@ export function Login() {
 
   function handleSignUpDialog(evt) {
     evt.preventDefault();
-    toggleSignUp();
+    toggleSignUpDialog();
   }
 
   return (
@@ -47,32 +51,23 @@ export function Login() {
           onSubmit={handleSubmit}
           className="inline-block w-96 max-w-md rounded-md bg-white p-4 shadow-lg ring-1 ring-neutral-100"
         >
-          <label htmlFor="email" className="sr-only">
-            Email
-          </label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            placeholder="Email"
-            autoComplete="email"
-            onChange={handleChange}
-            className="mb-3 block w-full rounded p-3 ring-1 ring-neutral-200"
-          />
-          <label htmlFor="password" className="sr-only">
-            Password
-          </label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            placeholder="Password"
-            autoComplete="current-password"
-            onChange={handleChange}
-            className="mb-3 block w-full rounded p-3 ring-1 ring-neutral-200"
-          />
+          {LOGIN_FORM_FIELDS.map((field) => (
+            <Fragment key={field.id}>
+              <label htmlFor={field.id} className="sr-only">
+                {field.label}
+              </label>
+              <input
+                id={field.id}
+                name={field.name}
+                type={field.type}
+                value={user[field.name]}
+                placeholder={field.placeholder}
+                autoComplete={field.autocomplete}
+                onChange={handleChange}
+                className="mb-3 block w-full rounded p-3 ring-1 ring-neutral-200"
+              />
+            </Fragment>
+          ))}
           <section className="py-2">
             <button
               form="login"
@@ -101,23 +96,14 @@ export function Login() {
           </section>
         </form>
       </main>
-      {signUp ? <SignUpDialog toggle={toggleSignUp} /> : null}
+      {signUpDialog ? <SignUpDialog toggle={toggleSignUpDialog} /> : null}
     </>
   );
 }
 
 function SignUpDialog({ toggle }) {
   const navigate = useNavigate();
-  const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    day: today.getDay(),
-    month: today.getMonth(),
-    year: today.getFullYear(),
-    gender: "female",
-  });
+  const [newUser, setNewUser] = useState(NEW_USER);
 
   async function handleSignUp(evt) {
     evt.preventDefault();
@@ -164,52 +150,31 @@ function SignUpDialog({ toggle }) {
                   id={field.id}
                   name={field.name}
                   placeholder={field.placeholder}
+                  autoComplete={field.autocomplete}
                   className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
                   value={newUser[field.name]}
                   onChange={handleNewUserChange}
+                  type={field.type}
                 />
               </section>
             ))}
             <section className="py-2">
               <div className="text-xs text-neutral-600">Birthday</div>
               <div role="presentation" className="flex justify-between">
-                <select
-                  name="month"
-                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                  value={newUser.month}
-                  onChange={handleNewUserChange}
-                >
-                  {months.map((month) => (
-                    <option key={month} value={month}>
-                      {month}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="day"
-                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                  value={newUser.day}
-                  onChange={handleNewUserChange}
-                >
-                  {days.map((day) => (
-                    <option key={day} value={day}>
-                      {day}
-                    </option>
-                  ))}
-                </select>
-
-                <select
-                  name="year"
-                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                  value={newUser.year}
-                  onChange={handleNewUserChange}
-                >
-                  {years().map((year) => (
-                    <option key={year} value={year}>
-                      {year}
-                    </option>
-                  ))}
-                </select>
+                {SIGN_UP_FORM_DOB.map((select) => (
+                  <select
+                    name={select.name}
+                    className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
+                    value={newUser[select.name]}
+                    onChange={handleNewUserChange}
+                  >
+                    {select.options.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                ))}
               </div>
             </section>
             <section className="py-2">
@@ -219,35 +184,23 @@ function SignUpDialog({ toggle }) {
                 className="flex justify-between"
                 onChange={handleNewUserChange}
               >
-                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                  <label htmlFor="female" className="flex justify-between">
-                    Female
-                    <input
-                      type="radio"
-                      id="female"
-                      name="gender"
-                      value="female"
-                      defaultChecked
-                    />
-                  </label>
-                </div>
-                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                  <label htmlFor="male" className="flex justify-between">
-                    Male
-                    <input type="radio" id="male" name="gender" value="male" />
-                  </label>
-                </div>
-                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                  <label htmlFor="other" className="flex justify-between">
-                    Other
-                    <input
-                      type="radio"
-                      id="other"
-                      name="gender"
-                      value="other"
-                    />
-                  </label>
-                </div>
+                {SIGN_UP_FORM_GENDERS.map((choice) => (
+                  <div
+                    key={choice.id}
+                    className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
+                  >
+                    <label htmlFor={choice.id} className="flex justify-between">
+                      {choice.label}
+                      <input
+                        type={choice.type}
+                        id={choice.id}
+                        name={choice.name}
+                        value={choice.value}
+                        defaultChecked={choice.defaultChecked}
+                      />
+                    </label>
+                  </div>
+                ))}
               </div>
             </section>
           </div>
@@ -264,33 +217,3 @@ function SignUpDialog({ toggle }) {
     </Modal>
   );
 }
-
-const SIGN_UP_FORM_FIELDS = [
-  {
-    label: "First name",
-    id: "firstName",
-    name: "firstName",
-    type: "text",
-    placeholder: "First name",
-  },
-  {
-    label: "Last name",
-    id: "lastName",
-    name: "lastName",
-    type: "text",
-    placeholder: "Last name",
-  },
-  {
-    label: "Email",
-    id: "email",
-    name: "email",
-    type: "email",
-    placeholder: "Email",
-  },
-  {
-    label: "New password",
-    id: "password",
-    name: "password",
-    placeholder: "New password",
-  },
-];

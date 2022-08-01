@@ -1,7 +1,7 @@
 import { FaUsers } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
 
-export const months = [
+export const MONTHS = [
   "January",
   "February",
   "March",
@@ -16,15 +16,14 @@ export const months = [
   "December",
 ];
 
-export const days = Array.from({ length: 31 }, (_, index) => index + 1);
+export const DAYS = Array.from({ length: 31 }, (_, index) => index + 1);
 
-export function years() {
+export function YEARS() {
   const thisYear = new Date().getFullYear();
   let years = [];
   for (let i = thisYear; i >= 1905; i--) {
     years.push(i);
   }
-
   return years;
 }
 
@@ -69,5 +68,114 @@ export const NAV_LINKS = [
     label: "Friends",
     Icon: FaUsers,
     to: "/friends",
+  },
+];
+
+const TODAY = new Date();
+
+export const NEW_USER = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  day: TODAY.getDay(),
+  month: TODAY.getMonth(),
+  year: TODAY.getFullYear(),
+  gender: "female",
+};
+
+export const LOGIN_FORM_FIELDS = [
+  {
+    label: "Email",
+    id: "email",
+    name: "email",
+    type: "email",
+    placeholder: "Email",
+    autocomplete: "email",
+  },
+  {
+    label: "Password",
+    id: "password",
+    name: "password",
+    type: "password",
+    placeholder: "Password",
+    autocomplete: "current-password",
+  },
+];
+
+export const SIGN_UP_FORM_FIELDS = [
+  {
+    label: "First name",
+    id: "firstName",
+    name: "firstName",
+    type: "text",
+    placeholder: "First name",
+    autocomplete: "given-name",
+  },
+  {
+    label: "Last name",
+    id: "lastName",
+    name: "lastName",
+    type: "text",
+    placeholder: "Last name",
+    autocomplete: "family-name",
+  },
+  {
+    label: "Email",
+    id: "email",
+    name: "email",
+    type: "email",
+    placeholder: "Email",
+    autocomplete: "email",
+  },
+  {
+    label: "New password",
+    id: "password",
+    name: "password",
+    type: "password",
+    placeholder: "New password",
+    autocomplete: "new-password",
+  },
+];
+
+export const SIGN_UP_FORM_GENDERS = [
+  {
+    label: "Female",
+    id: "female",
+    type: "radio",
+    name: "gender",
+    value: "female",
+    defaultChecked: true,
+  },
+  {
+    label: "Male",
+    id: "male",
+    type: "radio",
+    name: "gender",
+    value: "male",
+    defaultChecked: false,
+  },
+  {
+    label: "Other",
+    id: "other",
+    type: "radio",
+    name: "gender",
+    value: "other",
+    defaultChecked: false,
+  },
+];
+
+export const SIGN_UP_FORM_DOB = [
+  {
+    name: "month",
+    options: MONTHS,
+  },
+  {
+    name: "day",
+    options: DAYS,
+  },
+  {
+    name: "year",
+    options: YEARS(),
   },
 ];

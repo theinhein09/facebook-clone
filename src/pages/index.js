@@ -11,7 +11,7 @@ import { Image } from "../components/image";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { useBoolean } from "../hooks";
 import { CreatePostDialog } from "../components/create-post-dialog";
-import { months } from "../utils";
+import { MONTHS } from "../utils";
 
 export function Home() {
   const { user } = useUserContextState();
@@ -93,7 +93,7 @@ function convertTime(time) {
   const formattedHrs = hours >= 12 ? hours - 12 : hours;
   const minutes = fullDate.getMinutes();
   const ap = hours >= 12 ? "PM" : "AM";
-  return `${months[month]} ${date} at ${formattedHrs}:${minutes} ${ap}`;
+  return `${MONTHS[month]} ${date} at ${formattedHrs}:${minutes} ${ap}`;
 }
 
 export function Feed({ feed }) {
