@@ -89,7 +89,7 @@ export function ProfileHeader({ user, actionsBar }) {
       </section>
       {viewProfilePic ? (
         <Preview toggle={toggleViewProfilePic}>
-          <Image publicId={user.profileUrl} transform={{ type: "preview" }} />
+          <Image publicId={user.profileUrl} />
         </Preview>
       ) : null}
     </>
