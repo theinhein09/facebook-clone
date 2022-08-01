@@ -11,7 +11,7 @@ export function Modal({ children, toggle, bgColor }) {
   }
   return createPortal(
     <div
-      className={`fixed w-screen h-screen top-0 z-50  backdrop-blur-sm left-0 ${bgColor}`}
+      className={`fixed top-0 left-0 z-50 h-screen  w-screen backdrop-blur-sm ${bgColor}`}
       onClick={handleClick}
     >
       {children}

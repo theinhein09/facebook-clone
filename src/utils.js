@@ -1,3 +1,6 @@
+import { FaUsers } from "react-icons/fa";
+import { IoMdHome } from "react-icons/io";
+
 export const months = [
   "January",
   "February",
@@ -55,3 +58,16 @@ export const CLOUDINARY_UPLOAD_WIDGET_DEF_CONFIG = {
     },
   },
 };
+
+export const NAV_LINKS = [
+  {
+    label: "Home",
+    Icon: IoMdHome,
+    to: "/",
+  },
+  {
+    label: "Friends",
+    Icon: FaUsers,
+    to: "/friends",
+  },
+];

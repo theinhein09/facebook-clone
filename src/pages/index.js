@@ -33,7 +33,7 @@ export function Home() {
   return (
     <>
       <Layout>
-        <div className="bg-white mx-auto max-w-2xl px-3 py-2 rounded-md shadow-lg mt-4">
+        <div className="mx-auto mt-4 max-w-2xl rounded-md bg-white px-3 py-2 shadow-lg">
           <div role="presentation" className="flex gap-2">
             <div>
               <Image
@@ -42,7 +42,7 @@ export function Home() {
               />
             </div>
             <button
-              className="py-2 w-full bg-neutral-100 rounded-full text-neutral-500 text-left px-3 font-light"
+              className="w-full rounded-full bg-neutral-100 py-2 px-3 text-left font-light text-neutral-500"
               onClick={toggleCreatePost}
             >
               What's on your mind, {user.username}?
@@ -99,19 +99,19 @@ function convertTime(time) {
 export function Feed({ feed }) {
   const { user } = useUserContextState();
   return (
-    <article className="mx-auto max-w-2xl shadow-lg md:rounded-md ring-1 my-4 ring-neutral-100 pb-2 relative bg-white">
+    <article className="relative mx-auto my-4 max-w-2xl bg-white pb-2 shadow-lg ring-1 ring-neutral-100 md:rounded-md">
       <User
         user={feed.publisher}
         status={
           <span>
             {renderFeedType(feed.type)}
-            <BsDot className="text-2xl inline -mx-1" />
+            <BsDot className="-mx-1 inline text-2xl" />
             <span className="font-medium text-neutral-400">
               {feed.timestamp && convertTime(feed.timestamp)}
             </span>
             {feed.edited && (
               <>
-                <BsDot className="text-2xl inline -mx-1" />
+                <BsDot className="-mx-1 inline text-2xl" />
                 <span className="font-medium text-neutral-400">Edited</span>
               </>
             )}
@@ -119,10 +119,10 @@ export function Feed({ feed }) {
         }
       />
       <hr className="mb-2" />
-      <h2 className="px-1 text-sm py-1">{feed.text}</h2>
-      <section className="bg-black flex gap-2" id={feed.id}>
+      <h2 className="px-1 py-1 text-sm">{feed.text}</h2>
+      <section className="flex gap-2 bg-black" id={feed.id}>
         {feed.media.map((image) => (
-          <div key={image} role="presentation" className="mx-auto w-fit flex">
+          <div key={image} role="presentation" className="mx-auto flex w-fit">
             <Image publicId={image} />
           </div>
         ))}
@@ -134,15 +134,15 @@ export function Feed({ feed }) {
 
 export function FeedSkeleton() {
   return (
-    <div className="max-w-2xl h-80 shadow-lg rounded-md ring-1 mt-4 ring-neutral-100 pb-2 relative bg-white mx-auto py-3 mb-4">
-      <div className="flex gap-2 px-2 mb-2">
-        <div className="w-10 h-10 bg-neutral-300 rounded-full animate-pulse" />
+    <div className="relative mx-auto mt-4 mb-4 h-80 max-w-2xl rounded-md bg-white py-3 pb-2 shadow-lg ring-1 ring-neutral-100">
+      <div className="mb-2 flex gap-2 px-2">
+        <div className="h-10 w-10 animate-pulse rounded-full bg-neutral-300" />
         <div>
-          <div className="w-56 h-4 bg-neutral-300 mb-2 animate-pulse" />
-          <div className="w-32 h-3 bg-neutral-300 animate-pulse" />
+          <div className="mb-2 h-4 w-56 animate-pulse bg-neutral-300" />
+          <div className="h-3 w-32 animate-pulse bg-neutral-300" />
         </div>
       </div>
-      <div className="bg-neutral-100 h-56 animate-pulse" />
+      <div className="h-56 animate-pulse bg-neutral-100" />
     </div>
   );
 }

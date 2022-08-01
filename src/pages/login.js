@@ -71,8 +71,8 @@ export function Login() {
   return (
     <>
       <main className="bg-neutral-100 py-40 text-center">
-        <section className="inline-block max-w-sm align-top pt-10 text-left mr-28">
-          <h1 className="text-blue-500 text-5xl font-bold my-3">facebook</h1>
+        <section className="mr-28 inline-block max-w-sm pt-10 text-left align-top">
+          <h1 className="my-3 text-5xl font-bold text-blue-500">facebook</h1>
           <h2 className="text-2xl">
             Connect with friends and the world around you on Facebook.
           </h2>
@@ -80,7 +80,7 @@ export function Login() {
         <form
           id="login"
           onSubmit={handleSubmit}
-          className="inline-block bg-white ring-1 shadow-lg p-4 rounded-md ring-neutral-100 max-w-md w-96"
+          className="inline-block w-96 max-w-md rounded-md bg-white p-4 shadow-lg ring-1 ring-neutral-100"
         >
           <label htmlFor="email" className="sr-only">
             Email
@@ -93,7 +93,7 @@ export function Login() {
             placeholder="Email"
             autoComplete="email"
             onChange={handleChange}
-            className="ring-1 ring-neutral-200 p-3 rounded block mb-3 w-full"
+            className="mb-3 block w-full rounded p-3 ring-1 ring-neutral-200"
           />
           <label htmlFor="password" className="sr-only">
             Password
@@ -106,18 +106,18 @@ export function Login() {
             placeholder="Password"
             autoComplete="current-password"
             onChange={handleChange}
-            className="ring-1 ring-neutral-200 p-3 rounded block mb-3 w-full"
+            className="mb-3 block w-full rounded p-3 ring-1 ring-neutral-200"
           />
           <section className="py-2">
             <button
               form="login"
               type="submit"
-              className="bg-blue-500 text-white font-semibold rounded w-full py-3 hover:bg-blue-600 shadow-md hover:shadow-lg transition-all"
+              className="w-full rounded bg-blue-500 py-3 font-semibold text-white shadow-md transition-all hover:bg-blue-600 hover:shadow-lg"
             >
               Log In
             </button>
           </section>
-          <section className="text-center w-full py-3 text-sm font-medium">
+          <section className="w-full py-3 text-center text-sm font-medium">
             <button
               className="text-blue-500"
               onClick={(evt) => evt.preventDefault()}
@@ -126,9 +126,9 @@ export function Login() {
             </button>
           </section>
           <hr className="my-2" />
-          <section className="w-full text-center py-6">
+          <section className="w-full py-6 text-center">
             <button
-              className="bg-green-500 text-white px-3 py-3 rounded font-medium hover:shadow-lg shadow-md transition-all hover:bg-green-600"
+              className="rounded bg-green-500 px-3 py-3 font-medium text-white shadow-md transition-all hover:bg-green-600 hover:shadow-lg"
               onClick={handleSignUpDialog}
             >
               Create new account
@@ -139,7 +139,7 @@ export function Login() {
       {signUp ? (
         <Modal toggle={toggleSignUp} bgColor="bg-white/50">
           <Dialog>
-            <form className="bg-white rounded-md ring-1 ring-neutral-100 shadow-2xl shadow-black">
+            <form className="rounded-md bg-white shadow-2xl shadow-black ring-1 ring-neutral-100">
               <header className="p-4">
                 <h2 className="text-3xl font-semibold">Sign Up</h2>
               </header>
@@ -153,7 +153,7 @@ export function Login() {
                     id="firstName"
                     name="firstName"
                     placeholder="First name"
-                    className="ring-1 px-3 py-1.5 bg-neutral-50 rounded-md ring-neutral-300 mr-3 placeholder:text-sm"
+                    className="mr-3 rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
                     value={newUser.firstName}
                     onChange={handleNewUserChange}
                   />
@@ -164,7 +164,7 @@ export function Login() {
                     id="lastName"
                     name="lastName"
                     placeholder="Last name"
-                    className="ring-1 px-3 py-1.5 bg-neutral-50 rounded-md ring-neutral-300 placeholder:text-sm"
+                    className="rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
                     value={newUser.lastName}
                     onChange={handleNewUserChange}
                   />
@@ -178,7 +178,7 @@ export function Login() {
                     name="email"
                     type="email"
                     placeholder="Email"
-                    className="ring-1 px-3 py-1.5 bg-neutral-50 rounded-md ring-neutral-300 w-full placeholder:text-sm"
+                    className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
                     value={newUser.email}
                     onChange={handleNewUserChange}
                   />
@@ -192,7 +192,7 @@ export function Login() {
                     type="password"
                     name="password"
                     placeholder="New password"
-                    className="ring-1 px-3 py-1.5 bg-neutral-50 rounded-md ring-neutral-300 w-full placeholder:text-sm"
+                    className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
                     value={newUser.password}
                     onChange={handleNewUserChange}
                   />
@@ -202,7 +202,7 @@ export function Login() {
                   <div role="presentation" className="flex justify-between">
                     <select
                       name="month"
-                      className="w-1/4 ring-1 px-1 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1"
+                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
                       value={newUser.month}
                       onChange={handleNewUserChange}
                     >
@@ -214,7 +214,7 @@ export function Login() {
                     </select>
                     <select
                       name="day"
-                      className="w-1/4 ring-1 px-1 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1"
+                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
                       value={newUser.day}
                       onChange={handleNewUserChange}
                     >
@@ -226,7 +226,7 @@ export function Login() {
                     </select>
                     <select
                       name="year"
-                      className="w-1/4 ring-1 px-1 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1"
+                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
                       value={newUser.year}
                       onChange={handleNewUserChange}
                     >
@@ -245,7 +245,7 @@ export function Login() {
                     className="flex justify-between"
                     onChange={handleNewUserChange}
                   >
-                    <div className="w-1/4 ring-1 px-2 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1">
+                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
                       <label htmlFor="female" className="flex justify-between">
                         Female
                         <input
@@ -257,7 +257,7 @@ export function Login() {
                         />
                       </label>
                     </div>
-                    <div className="w-1/4 ring-1 px-2 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1">
+                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
                       <label htmlFor="male" className="flex justify-between">
                         Male
                         <input
@@ -268,7 +268,7 @@ export function Login() {
                         />
                       </label>
                     </div>
-                    <div className="w-1/4 ring-1 px-2 py-1.5 rounded-md ring-neutral-300 text-sm text-neutral-600 my-1">
+                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
                       <label htmlFor="other" className="flex justify-between">
                         Other
                         <input
@@ -282,9 +282,9 @@ export function Login() {
                   </div>
                 </section>
               </div>
-              <section className="text-center pb-3">
+              <section className="pb-3 text-center">
                 <button
-                  className="bg-green-500 text-white px-10 py-2 rounded font-medium hover:shadow-lg shadow-md transition-all hover:bg-green-600"
+                  className="rounded bg-green-500 px-10 py-2 font-medium text-white shadow-md transition-all hover:bg-green-600 hover:shadow-lg"
                   onClick={handleSignUp}
                 >
                   Sign Up

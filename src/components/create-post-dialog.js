@@ -57,14 +57,14 @@ export function CreatePostDialog({ toggleCreatePost }) {
   return (
     <Modal bgColor="bg-white/70">
       <Dialog>
-        <form className="mx-auto max-w-2xl w-96 ring-1 ring-neutral-100 shadow-2xl shadow-black my-4 rounded-md bg-white">
+        <form className="mx-auto my-4 w-96 max-w-2xl rounded-md bg-white shadow-2xl shadow-black ring-1 ring-neutral-100">
           <header className="relative">
-            <h3 className="text-xl text-center font-semibold py-4">
+            <h3 className="py-4 text-center text-xl font-semibold">
               Create Post
             </h3>
             <button
               onClick={handleDialogClose}
-              className="absolute right-3 top-1/2 text-3xl -translate-y-1/2 w-10 h-10 rounded-full bg-neutral-100 hover:bg-neutral-200 flex justify-center items-center flex-none transition-all"
+              className="absolute right-3 top-1/2 flex h-10 w-10 flex-none -translate-y-1/2 items-center justify-center rounded-full bg-neutral-100 text-3xl transition-all hover:bg-neutral-200"
             >
               <IoClose />
             </button>
@@ -75,7 +75,7 @@ export function CreatePostDialog({ toggleCreatePost }) {
             status={
               <select
                 name="type"
-                className="text-xs mr-2 rounded-sm ring-1 ring-neutral-300 bg-neutral-200 px-1"
+                className="mr-2 rounded-sm bg-neutral-200 px-1 text-xs ring-1 ring-neutral-300"
                 value={post.type}
                 onChange={handleChange}
                 onClick={handeSelectClick}
@@ -96,14 +96,14 @@ export function CreatePostDialog({ toggleCreatePost }) {
               placeholder={`What's on your mind, ${user.username}?`}
             />
           </section>
-          <section className="text-right pr-1 py-2">
+          <section className="py-2 pr-1 text-right">
             <CloudinaryUploadWidget setPost={setPost} folder={user.id} />
           </section>
-          <section className="pb-2 w-full px-2">
+          <section className="w-full px-2 pb-2">
             <button
               type="submit"
               onClick={handleSubmit}
-              className="bg-blue-500 hover:bg-blue-600 rounded-md shadow-md hover:shadow-lg w-full py-2 text-sm text-white transition-all"
+              className="w-full rounded-md bg-blue-500 py-2 text-sm text-white shadow-md transition-all hover:bg-blue-600 hover:shadow-lg"
             >
               Post
             </button>

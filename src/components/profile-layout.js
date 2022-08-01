@@ -39,7 +39,7 @@ export function ProfileLayout({ children }) {
               <button
                 onClick={handleAddFriend}
                 disabled={disabledBtn}
-                className="bg-blue-500 px-4 py-1 text-sm shadow-md hover:shadow-lg hover:bg-blue-400 rounded text-white font-medium"
+                className="rounded bg-blue-500 px-4 py-1 text-sm font-medium text-white shadow-md hover:bg-blue-400 hover:shadow-lg"
               >
                 Add Friend
               </button>

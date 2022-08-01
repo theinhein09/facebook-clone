@@ -101,10 +101,10 @@ export function CloudinaryUploadWidget({ setPost, type = "feed-images" }) {
     switch (type) {
       case "feed-images":
         return (
-          <div role="presentation" className="px-2 my-3">
+          <div role="presentation" className="my-3 px-2">
             <button
               onClick={handleUpload}
-              className="transition-all text-sm w-full py-4 rounded ring-1 ring-neutral-300 text-left px-3 text-neutral-700 font-medium hover:bg-neutral-200"
+              className="w-full rounded py-4 px-3 text-left text-sm font-medium text-neutral-700 ring-1 ring-neutral-300 transition-all hover:bg-neutral-200"
             >
               Add to your post
             </button>
@@ -113,10 +113,10 @@ export function CloudinaryUploadWidget({ setPost, type = "feed-images" }) {
 
       case "profile-pic":
         return (
-          <button className="flex gap-4 items-center" onClick={handleUpload}>
+          <button className="flex items-center gap-4" onClick={handleUpload}>
             <div
               role="presentation"
-              className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-300 text-2xl"
             >
               <TbPhoto className="text-neutral-700" />
             </div>

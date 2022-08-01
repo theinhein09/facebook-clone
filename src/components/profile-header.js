@@ -13,13 +13,13 @@ export function ProfileHeader({ user, actionsBar }) {
 
   return (
     <>
-      <section className="w-full mx-auto bg-white shadow">
-        <div className="max-w-6xl h-56 md:h-96 mx-auto md:rounded-b-xl bg-gradient-to-t from-black to-neutral-300"></div>
-        <div className="max-w-6xl mx-auto flex items-end -mt-7 px-10">
+      <section className="mx-auto w-full bg-white shadow">
+        <div className="mx-auto h-56 max-w-6xl bg-gradient-to-t from-black to-neutral-300 md:h-96 md:rounded-b-xl"></div>
+        <div className="mx-auto -mt-7 flex max-w-6xl items-end px-10">
           <div className="relative">
             <button
               onClick={toggleProfilePicMenu}
-              className="rounded-full border-4 bg-black border-white"
+              className="rounded-full border-4 border-white bg-black"
             >
               <Image
                 publicId={user.profileUrl}
@@ -27,18 +27,18 @@ export function ProfileHeader({ user, actionsBar }) {
               />
             </button>
             <menu
-              className={`absolute bottom-0 min-w-fit whitespace-nowrap translate-y-full p-2 bg-white ring-1 ring-neutral-200 rounded-md shadow-2xl z-50 ${
+              className={`absolute bottom-0 z-50 min-w-fit translate-y-full whitespace-nowrap rounded-md bg-white p-2 shadow-2xl ring-1 ring-neutral-200 ${
                 profilePicMenu ? "block" : "hidden"
               }`}
             >
               <li
                 role="menuitem"
-                className="py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
+                className="my-1 flex cursor-pointer items-center gap-4 rounded-md py-2 pr-24 pl-2 text-sm text-neutral-700 transition-all hover:bg-neutral-100"
                 onClick={toggleViewProfilePic}
               >
                 <div
                   role="presentation"
-                  className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl "
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-300 text-2xl "
                 >
                   <BiUser className="text-neutral-700" />
                 </div>
@@ -47,25 +47,25 @@ export function ProfileHeader({ user, actionsBar }) {
               {currentUser.id === user.id ? (
                 <li
                   role="menuitem"
-                  className="py-2 pr-24 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all"
+                  className="my-1 rounded-md py-2 pr-24 pl-2 text-sm text-neutral-700 transition-all hover:bg-neutral-100"
                 >
                   <CloudinaryUploadWidget type="profile-pic" />
                 </li>
               ) : null}
             </menu>
           </div>
-          <div className="py-5 pl-3 text-3xl font-semibold flex-grow">
+          <div className="flex-grow py-5 pl-3 text-3xl font-semibold">
             {user.username}
           </div>
           <div>{actionsBar}</div>
         </div>
-        <hr className="my-4 max-w-5xl mx-auto" />
-        <div className="max-w-6xl px-10 mx-auto">
+        <hr className="my-4 mx-auto max-w-5xl" />
+        <div className="mx-auto max-w-6xl px-10">
           <nav>
             <NavLink to={`/${user.id}/posts`}>
               {({ isActive }) => (
                 <span
-                  className={`px-5 pb-4 inline-block ${
+                  className={`inline-block px-5 pb-4 ${
                     isActive ? "text-blue-500 transition-all" : undefined
                   }`}
                 >
@@ -76,7 +76,7 @@ export function ProfileHeader({ user, actionsBar }) {
             <NavLink to={`/${user.id}/about`}>
               {({ isActive }) => (
                 <span
-                  className={`px-5 pb-4 inline-block ${
+                  className={`inline-block px-5 pb-4 ${
                     isActive ? "text-blue-500 transition-all" : undefined
                   }`}
                 >

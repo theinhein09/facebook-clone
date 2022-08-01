@@ -1,13 +1,11 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { IoMdHome, IoMdNotifications } from "react-icons/io";
-import { FaUsers } from "react-icons/fa";
+import { IoMdNotifications } from "react-icons/io";
 import { SearchBtn } from "./searchbar";
 import {
   useUserContextState,
   useUserContextUpdater,
 } from "../contexts/user-context";
 import logo from "../assets/images/logo.png";
-import { RiSettings5Fill } from "react-icons/ri";
 import { FiLogOut } from "react-icons/fi";
 import { useBoolean } from "../hooks";
 import { Auth } from "../firebase/authentication";
@@ -15,16 +13,72 @@ import { User } from "./user";
 import { Image } from "./image";
 import { Users } from "../firebase/firestore";
 import { useEffect } from "react";
+import { NAV_LINKS } from "../utils";
+
 export function Navbar() {
   const { user } = useUserContextState();
   const setUser = useUserContextUpdater();
   const [account, { toggle }] = useBoolean(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = Users.getRealtimeCurrentUser(setUser);
     return () => typeof unsubscribe === "function" && unsubscribe();
   }, [setUser]);
+
+  return (
+    <>
+      <nav className="sticky top-0 z-50 flex w-full bg-white px-5 shadow-md">
+        <section className="flex w-1/6 items-center gap-2">
+          <div className="h-10 w-10 flex-none">
+            <Link to="/">
+              <img src={logo} alt="logo" width={40} height={40} />
+            </Link>
+          </div>
+          <SearchBtn />
+        </section>
+        <menu className="flex flex-grow justify-center text-neutral-500">
+          {NAV_LINKS.map(({ label, Icon, to }) => (
+            <li key={label} role="menuitem" className="inline-block px-3 py-1">
+              <NavLink to={to}>
+                {({ isActive }) => (
+                  <>
+                    <Icon
+                      className={`mx-auto text-2xl ${
+                        isActive ? "text-blue-500 transition-all" : undefined
+                      }`}
+                    />
+                    <span
+                      className={
+                        isActive ? "text-blue-500 transition-all" : undefined
+                      }
+                    >
+                      {label}
+                    </span>
+                  </>
+                )}
+              </NavLink>
+            </li>
+          ))}
+        </menu>
+        <section className="flex w-1/6 items-center justify-end">
+          <button className="mr-2 h-10 w-10 flex-none rounded-full bg-neutral-200">
+            <IoMdNotifications className="mx-auto text-2xl" />
+          </button>
+          <button onClick={toggle} className="h-10 w-10 flex-none">
+            <Image
+              publicId={user.profileUrl}
+              transform={{ type: "profile-pic", width: 40, height: 40 }}
+            />
+          </button>
+        </section>
+      </nav>
+      <AccountSettings account={account} user={user} />
+    </>
+  );
+}
+
+function AccountSettings({ account, user }) {
+  const navigate = useNavigate();
 
   async function handleLogout() {
     try {
@@ -34,106 +88,31 @@ export function Navbar() {
       console.log(err);
     }
   }
-
   return (
-    <>
-      <nav className="shadow-md sticky w-full bg-white top-0 z-50 flex px-5">
-        <section className="flex items-center w-1/6 gap-2">
-          <Link to="/">
-            <div className="w-10 h-10 flex-none">
-              <img src={logo} alt="logo" width={40} height={40} />
-            </div>
-          </Link>
-          <SearchBtn />
-        </section>
-        <menu className="flex-grow text-neutral-500 flex justify-center">
-          <li role="menuitem" className="inline-block px-3 py-1">
-            <NavLink to="/">
-              {({ isActive }) => (
-                <span
-                  className={
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }
-                >
-                  <IoMdHome
-                    className={`text-2xl mx-auto ${
-                      isActive ? "text-blue-500 transition-all" : undefined
-                    }`}
-                  />
-                  Home
-                </span>
-              )}
-            </NavLink>
-          </li>
-          <li role="menuitem" className="inline-block px-3 py-1">
-            <NavLink to="/friends">
-              {({ isActive }) => (
-                <span
-                  className={
-                    isActive ? "text-blue-500 transition-all" : undefined
-                  }
-                >
-                  <FaUsers
-                    className={`text-2xl mx-auto ${
-                      isActive ? "text-blue-500 transition-all" : undefined
-                    }`}
-                  />
-                  Friends
-                </span>
-              )}
-            </NavLink>
-          </li>
-        </menu>
-        <section className="w-1/6 flex items-center justify-end">
-          <button className="bg-neutral-200 w-10 h-10 rounded-full mr-2 flex-none">
-            <IoMdNotifications className="text-2xl mx-auto" />
-          </button>
-          <button onClick={toggle} className="w-10 h-10 flex-none">
-            <Image
-              publicId={user.profileUrl}
-              transform={{ type: "profile-pic", width: 40, height: 40 }}
-            />
-          </button>
-        </section>
-      </nav>
-      <menu
-        className={`right-3 mt-2 fixed p-2 bg-white ring-1 ring-neutral-200 rounded-md shadow-2xl z-50 ${
-          account ? "block" : "hidden"
-        }`}
+    <menu
+      className={`fixed right-3 z-50 mt-2 w-72 rounded-md bg-white p-2 shadow-2xl ring-1 ring-neutral-200 ${
+        account ? "block" : "hidden"
+      }`}
+    >
+      <li
+        role="menuitem"
+        className="mt-1 mb-3 w-full rounded-md shadow-lg ring-1 ring-neutral-100 transition-all hover:bg-neutral-100"
       >
-        <li
-          role="menuitem"
-          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md mt-1 mb-3 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer shadow-lg ring-1 ring-neutral-100"
-          onClick={() => navigate(`/${user.id}/posts`)}
+        <User user={user} />
+      </li>
+      <button
+        role="menuitem"
+        className="my-1 flex w-full items-center gap-4 rounded-md py-2 pl-2 text-left text-sm text-neutral-700 transition-all hover:bg-neutral-100"
+        onClick={handleLogout}
+      >
+        <div
+          role="presentation"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-300 text-2xl"
         >
-          <User user={user} />
-        </li>
-        <li
-          role="menuitem"
-          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
-        >
-          <div
-            role="presentation"
-            className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl "
-          >
-            <RiSettings5Fill className="text-neutral-700" />
-          </div>
-          Settings
-        </li>
-        <li
-          role="menuitem"
-          className="text-left w-full py-2 pr-28 pl-2 text-sm text-neutral-700 rounded-md my-1 hover:bg-neutral-100 transition-all flex gap-4 items-center cursor-pointer"
-          onClick={handleLogout}
-        >
-          <div
-            role="presentation"
-            className="w-10 h-10 rounded-full bg-neutral-300 flex items-center justify-center text-2xl"
-          >
-            <FiLogOut className="text-neutral-700" />
-          </div>
-          Log Out
-        </li>
-      </menu>
-    </>
+          <FiLogOut className="text-neutral-700" />
+        </div>
+        Log Out
+      </button>
+    </menu>
   );
 }

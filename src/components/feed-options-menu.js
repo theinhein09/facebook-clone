@@ -36,14 +36,14 @@ export function FeedOptionsMenu({ feed }) {
           <GoChevronDown />
         </button>
         <menu
-          className={`absolute right-0 bg-neutral-100 transition-all w-24 ${
+          className={`absolute right-0 w-24 bg-neutral-100 transition-all ${
             optionsMenu ? "visible opacity-100" : "invisible opacity-0"
           }`}
         >
           <li role="menuitem">
             <button
               onClick={handleEdit}
-              className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs"
+              className="w-full bg-neutral-100 px-3 py-1 text-left text-xs text-neutral-600 transition-all hover:bg-neutral-200"
             >
               Edit post
             </button>
@@ -51,7 +51,7 @@ export function FeedOptionsMenu({ feed }) {
           <li role="menuitem">
             <button
               onClick={handleDelete}
-              className="hover:bg-neutral-200 bg-neutral-100 w-full px-3 py-1 text-left transition-all text-neutral-600 text-xs"
+              className="w-full bg-neutral-100 px-3 py-1 text-left text-xs text-neutral-600 transition-all hover:bg-neutral-200"
             >
               Delete post
             </button>
@@ -61,28 +61,28 @@ export function FeedOptionsMenu({ feed }) {
       {feedEditor ? (
         <Modal toggle={toggleFeedEditor}>
           <Dialog>
-            <div role="presentation" className="min-w-[320px] bg-white rounded">
-              <h3 className="bg-blue-500 text-white px-2 py-1 rounded-t mb-2">
+            <div role="presentation" className="min-w-[320px] rounded bg-white">
+              <h3 className="mb-2 rounded-t bg-blue-500 px-2 py-1 text-white">
                 Edit Post
               </h3>
-              <section className="text-center w-full">
+              <section className="w-full text-center">
                 <textarea
                   value={editingFeed.text}
                   onChange={handleEditingFeedChange}
-                  className="resize-none w-[300px] p-1 my-2 text-neutral-500"
+                  className="my-2 w-[300px] resize-none p-1 text-neutral-500"
                   rows={5}
                 />
               </section>
-              <section className="text-right py-2 px-1">
+              <section className="py-2 px-1 text-right">
                 <button
                   onClick={handleEditingFeed}
-                  className="text-sm shadow-md hover:shadow-lg bg-blue-400 hover:bg-blue-500 rounded-full px-4 py-1 text-white transition-all mr-1"
+                  className="mr-1 rounded-full bg-blue-400 px-4 py-1 text-sm text-white shadow-md transition-all hover:bg-blue-500 hover:shadow-lg"
                 >
                   Update
                 </button>
                 <button
                   onClick={toggleFeedEditor}
-                  className="text-sm shadow-md hover:shadow-lg bg-neutral-400 hover:bg-neutral-500 rounded-full px-4 py-1 text-white transition-all"
+                  className="rounded-full bg-neutral-400 px-4 py-1 text-sm text-white shadow-md transition-all hover:bg-neutral-500 hover:shadow-lg"
                 >
                   Cancel
                 </button>

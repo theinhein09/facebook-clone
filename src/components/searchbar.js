@@ -11,16 +11,16 @@ export function SearchBtn() {
       <Searchbar toggle={toggle} visible={searchbar} />
       <>
         <button
-          className="bg-neutral-100 rounded-full h-10 shadow text-neutral-400 flex items-center"
+          className="flex h-10 items-center rounded-full bg-neutral-100 text-neutral-400 shadow"
           onClick={toggle}
         >
           <span
             role="presentation"
-            className="text-lg w-10 h-10 rounded-full flex justify-center items-center"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-lg"
           >
             <GoSearch />
           </span>
-          <span className="hidden xl:block pr-6 text-sm">Search Facebook</span>
+          <span className="hidden pr-6 text-sm xl:block">Search Facebook</span>
         </button>
       </>
     </>
@@ -49,14 +49,14 @@ function Searchbar({ toggle, visible }) {
   return (
     <div
       role="presentation"
-      className={`w-80 bg-white fixed z-50 ring-1 left-1 top-0 ring-neutral-100 shadow-lg rounded-b-md p-3 transition-all ${
+      className={`fixed left-1 top-0 z-50 w-80 rounded-b-md bg-white p-3 shadow-lg ring-1 ring-neutral-100 transition-all ${
         visible ? "visible opacity-100" : "invisible opacity-0"
       }`}
     >
       <div className="flex gap-2">
         <button
           onClick={handleClose}
-          className="text-2xl w-10 h-10 rounded-full flex justify-center items-center"
+          className="flex h-10 w-10 items-center justify-center rounded-full text-2xl"
         >
           <MdKeyboardBackspace />
         </button>
@@ -66,7 +66,7 @@ function Searchbar({ toggle, visible }) {
           onChange={handleChange}
           placeholder="Search Facebook"
           autoComplete="username"
-          className="bg-neutral-100 px-4 w-full rounded-full h-10 shadow placeholder:text-sm"
+          className="h-10 w-full rounded-full bg-neutral-100 px-4 shadow placeholder:text-sm"
         />
       </div>
       <SearchResults results={users} setResults={setUsers} />
@@ -76,9 +76,9 @@ function Searchbar({ toggle, visible }) {
 
 function SearchResults({ results }) {
   return (
-    <aside className="mt-3 min-w-[300px] flex flex-col items-center">
+    <aside className="mt-3 flex min-w-[300px] flex-col items-center">
       {results.length === 0 ? (
-        <span className="text-neutral-400 text-sm font-light">
+        <span className="text-sm font-light text-neutral-400">
           No recent searches
         </span>
       ) : (
@@ -87,7 +87,7 @@ function SearchResults({ results }) {
           {results.map((result) => (
             <div
               key={result.id}
-              className="w-full shadow-lg ring-1 ring-neutral-100 rounded p-1 mb-4 last-of-type:mb-0"
+              className="mb-4 w-full rounded p-1 shadow-lg ring-1 ring-neutral-100 last-of-type:mb-0"
             >
               <User user={result} />
             </div>
