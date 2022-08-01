@@ -6,22 +6,13 @@ import { Auth } from "../firebase/authentication";
 import { useBoolean } from "../hooks";
 import { months, days, years } from "../utils";
 import { Users } from "../firebase/firestore";
+import { GoChevronDown } from "react-icons/go";
 
 const today = new Date();
 export function Login() {
   const [{ email, password }, setUser] = useState({ email: "", password: "" });
   const [signUp, { toggle: toggleSignUp }] = useBoolean(false);
   const navigate = useNavigate();
-  const [newUser, setNewUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    day: today.getDay(),
-    month: today.getMonth(),
-    year: today.getFullYear(),
-    gender: "female",
-  });
 
   function handleChange({ target }) {
     setUser((user) => ({ ...user, [target.name]: target.value }));
@@ -42,32 +33,6 @@ export function Login() {
     toggleSignUp();
   }
 
-  async function handleSignUp(evt) {
-    evt.preventDefault();
-    const { firstName, lastName, email, password, month, day, year, gender } =
-      newUser;
-    const user = await Auth.signUp(email, password);
-    const formattedUser = {
-      id: user.uid,
-      username: firstName + " " + lastName,
-      "username-sl": firstName.toLowerCase() + " " + lastName.toLowerCase(),
-      firstName,
-      lastName,
-      email,
-      dob: new Date(`${month} ${day}, ${year}`),
-      gender,
-      subscribers: [user.uid],
-      pendingRequests: [],
-      timestamp: "",
-      profileUrl: "default_avatar_xuum5f.jpg",
-    };
-    await Users.setUser(user.uid, formattedUser);
-    navigate("/");
-  }
-
-  function handleNewUserChange({ target }) {
-    setNewUser({ ...newUser, [target.name]: target.value });
-  }
   return (
     <>
       <main className="bg-neutral-100 py-40 text-center">
@@ -136,164 +101,196 @@ export function Login() {
           </section>
         </form>
       </main>
-      {signUp ? (
-        <Modal toggle={toggleSignUp} bgColor="bg-white/50">
-          <Dialog>
-            <form className="rounded-md bg-white shadow-2xl shadow-black ring-1 ring-neutral-100">
-              <header className="p-4">
-                <h2 className="text-3xl font-semibold">Sign Up</h2>
-              </header>
-              <hr />
-              <div role="presentation" className="p-4">
-                <section className="mb-3">
-                  <label htmlFor="firstName" className="sr-only">
-                    First name
-                  </label>
-                  <input
-                    id="firstName"
-                    name="firstName"
-                    placeholder="First name"
-                    className="mr-3 rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
-                    value={newUser.firstName}
-                    onChange={handleNewUserChange}
-                  />
-                  <label htmlFor="lastName" className="sr-only">
-                    Last name
-                  </label>
-                  <input
-                    id="lastName"
-                    name="lastName"
-                    placeholder="Last name"
-                    className="rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
-                    value={newUser.lastName}
-                    onChange={handleNewUserChange}
-                  />
-                </section>
-                <section className="mb-3">
-                  <label htmlFor="email" className="sr-only">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                    className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
-                    value={newUser.email}
-                    onChange={handleNewUserChange}
-                  />
-                </section>
-                <section className="mb-3">
-                  <label htmlFor="password" className="sr-only">
-                    New password
-                  </label>
-                  <input
-                    id="password"
-                    type="password"
-                    name="password"
-                    placeholder="New password"
-                    className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
-                    value={newUser.password}
-                    onChange={handleNewUserChange}
-                  />
-                </section>
-                <section className="py-2">
-                  <div className="text-xs text-neutral-600">Birthday</div>
-                  <div role="presentation" className="flex justify-between">
-                    <select
-                      name="month"
-                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                      value={newUser.month}
-                      onChange={handleNewUserChange}
-                    >
-                      {months.map((month) => (
-                        <option key={month} value={month}>
-                          {month}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      name="day"
-                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                      value={newUser.day}
-                      onChange={handleNewUserChange}
-                    >
-                      {days.map((day) => (
-                        <option key={day} value={day}>
-                          {day}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      name="year"
-                      className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
-                      value={newUser.year}
-                      onChange={handleNewUserChange}
-                    >
-                      {years().map((year) => (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </section>
-                <section className="py-2">
-                  <div className="text-xs text-neutral-600">Gender</div>
-                  <div
-                    role="presentation"
-                    className="flex justify-between"
-                    onChange={handleNewUserChange}
-                  >
-                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                      <label htmlFor="female" className="flex justify-between">
-                        Female
-                        <input
-                          type="radio"
-                          id="female"
-                          name="gender"
-                          value="female"
-                          defaultChecked
-                        />
-                      </label>
-                    </div>
-                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                      <label htmlFor="male" className="flex justify-between">
-                        Male
-                        <input
-                          type="radio"
-                          id="male"
-                          name="gender"
-                          value="male"
-                        />
-                      </label>
-                    </div>
-                    <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
-                      <label htmlFor="other" className="flex justify-between">
-                        Other
-                        <input
-                          type="radio"
-                          id="other"
-                          name="gender"
-                          value="other"
-                        />
-                      </label>
-                    </div>
-                  </div>
-                </section>
-              </div>
-              <section className="pb-3 text-center">
-                <button
-                  className="rounded bg-green-500 px-10 py-2 font-medium text-white shadow-md transition-all hover:bg-green-600 hover:shadow-lg"
-                  onClick={handleSignUp}
-                >
-                  Sign Up
-                </button>
-              </section>
-            </form>
-          </Dialog>
-        </Modal>
-      ) : null}
+      {signUp ? <SignUpDialog toggle={toggleSignUp} /> : null}
     </>
   );
 }
+
+function SignUpDialog({ toggle }) {
+  const navigate = useNavigate();
+  const [newUser, setNewUser] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    day: today.getDay(),
+    month: today.getMonth(),
+    year: today.getFullYear(),
+    gender: "female",
+  });
+
+  async function handleSignUp(evt) {
+    evt.preventDefault();
+    const { firstName, lastName, email, password, month, day, year, gender } =
+      newUser;
+    const user = await Auth.signUp(email, password);
+    const formattedUser = {
+      id: user.uid,
+      username: firstName + " " + lastName,
+      "username-sl": firstName.toLowerCase() + " " + lastName.toLowerCase(),
+      firstName,
+      lastName,
+      email,
+      dob: new Date(`${month} ${day}, ${year}`),
+      gender,
+      subscribers: [user.uid],
+      pendingRequests: [],
+      timestamp: "",
+      profileUrl: "default_avatar_xuum5f.jpg",
+    };
+    await Users.setUser(user.uid, formattedUser);
+    navigate("/");
+  }
+
+  function handleNewUserChange({ target }) {
+    setNewUser({ ...newUser, [target.name]: target.value });
+  }
+
+  return (
+    <Modal toggle={toggle} bgColor="bg-white/50">
+      <Dialog>
+        <form className="w-screen max-w-md rounded-md bg-white shadow-2xl shadow-black ring-1 ring-neutral-100">
+          <header className="p-4">
+            <h2 className="text-3xl font-semibold">Sign Up</h2>
+          </header>
+          <hr />
+          <div role="presentation" className="flex flex-col flex-wrap p-4">
+            {SIGN_UP_FORM_FIELDS.map((field) => (
+              <section className="mb-3" key={field.id}>
+                <label htmlFor={field.id} className="sr-only">
+                  {field.label}
+                </label>
+                <input
+                  id={field.id}
+                  name={field.name}
+                  placeholder={field.placeholder}
+                  className="w-full rounded-md bg-neutral-50 px-3 py-1.5 ring-1 ring-neutral-300 placeholder:text-sm"
+                  value={newUser[field.name]}
+                  onChange={handleNewUserChange}
+                />
+              </section>
+            ))}
+            <section className="py-2">
+              <div className="text-xs text-neutral-600">Birthday</div>
+              <div role="presentation" className="flex justify-between">
+                <select
+                  name="month"
+                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
+                  value={newUser.month}
+                  onChange={handleNewUserChange}
+                >
+                  {months.map((month) => (
+                    <option key={month} value={month}>
+                      {month}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="day"
+                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
+                  value={newUser.day}
+                  onChange={handleNewUserChange}
+                >
+                  {days.map((day) => (
+                    <option key={day} value={day}>
+                      {day}
+                    </option>
+                  ))}
+                </select>
+
+                <select
+                  name="year"
+                  className="my-1 w-1/4 rounded-md px-1 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300"
+                  value={newUser.year}
+                  onChange={handleNewUserChange}
+                >
+                  {years().map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </section>
+            <section className="py-2">
+              <div className="text-xs text-neutral-600">Gender</div>
+              <div
+                role="presentation"
+                className="flex justify-between"
+                onChange={handleNewUserChange}
+              >
+                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
+                  <label htmlFor="female" className="flex justify-between">
+                    Female
+                    <input
+                      type="radio"
+                      id="female"
+                      name="gender"
+                      value="female"
+                      defaultChecked
+                    />
+                  </label>
+                </div>
+                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
+                  <label htmlFor="male" className="flex justify-between">
+                    Male
+                    <input type="radio" id="male" name="gender" value="male" />
+                  </label>
+                </div>
+                <div className="my-1 w-1/4 rounded-md px-2 py-1.5 text-sm text-neutral-600 ring-1 ring-neutral-300">
+                  <label htmlFor="other" className="flex justify-between">
+                    Other
+                    <input
+                      type="radio"
+                      id="other"
+                      name="gender"
+                      value="other"
+                    />
+                  </label>
+                </div>
+              </div>
+            </section>
+          </div>
+          <section className="pb-3 text-center">
+            <button
+              className="rounded bg-green-500 px-10 py-2 font-medium text-white shadow-md transition-all hover:bg-green-600 hover:shadow-lg"
+              onClick={handleSignUp}
+            >
+              Sign Up
+            </button>
+          </section>
+        </form>
+      </Dialog>
+    </Modal>
+  );
+}
+
+const SIGN_UP_FORM_FIELDS = [
+  {
+    label: "First name",
+    id: "firstName",
+    name: "firstName",
+    type: "text",
+    placeholder: "First name",
+  },
+  {
+    label: "Last name",
+    id: "lastName",
+    name: "lastName",
+    type: "text",
+    placeholder: "Last name",
+  },
+  {
+    label: "Email",
+    id: "email",
+    name: "email",
+    type: "email",
+    placeholder: "Email",
+  },
+  {
+    label: "New password",
+    id: "password",
+    name: "password",
+    placeholder: "New password",
+  },
+];
