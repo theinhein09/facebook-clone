@@ -7,7 +7,7 @@ import { MdKeyboardBackspace } from "react-icons/md";
 export function SearchBtn() {
   const [searchbar, { toggle }] = useBoolean(false);
   return (
-    <div role="presentation">
+    <>
       <Searchbar toggle={toggle} visible={searchbar} />
       <>
         <button
@@ -20,15 +20,13 @@ export function SearchBtn() {
           >
             <GoSearch />
           </span>
-          <span className="hidden md:inline-flex pr-6 text-sm">
-            Search Facebook
-          </span>
+          <span className="hidden xl:block pr-6 text-sm">Search Facebook</span>
         </button>
       </>
-    </div>
+    </>
   );
 }
-export function Searchbar({ toggle, visible }) {
+function Searchbar({ toggle, visible }) {
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
 
@@ -87,8 +85,11 @@ function SearchResults({ results }) {
         <>
           <span className="w-full py-3 font-semibold">Recent searches</span>
           {results.map((result) => (
-            <div className="w-full shadow-lg ring-1 ring-neutral-100 rounded p-1 mb-4 last-of-type:mb-0">
-              <User user={result} key={result.id} />
+            <div
+              key={result.id}
+              className="w-full shadow-lg ring-1 ring-neutral-100 rounded p-1 mb-4 last-of-type:mb-0"
+            >
+              <User user={result} />
             </div>
           ))}
         </>
