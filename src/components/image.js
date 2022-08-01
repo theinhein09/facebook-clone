@@ -22,7 +22,7 @@ export function Image({ publicId, transform }) {
     },
   });
 
-  // Use the image with public ID, 'front_face'.
+  // Use the image with public ID.
   const myImage = cld.image(publicId);
   const fullSize = cld.image(publicId);
   myImage.format("webp");
@@ -34,21 +34,23 @@ export function Image({ publicId, transform }) {
 
   function renderImage() {
     let transformedImage;
-    if (type === "profile-pic") {
-      transformedImage = myImage
-        .resize(
-          thumbnail().width(width).height(height).gravity(focusOn(face()))
-        )
-        .roundCorners(max());
 
-      return <AdvancedImage cldImg={transformedImage} />;
-    } else {
-      transformedImage = myImage.resize(thumbnail().width(500).height(600)); // Crop the image, focusing on the face.
-      return (
-        <button onClick={toggle}>
-          <AdvancedImage cldImg={transformedImage} />
-        </button>
-      );
+    switch (type) {
+      case "profile-pic":
+        transformedImage = myImage
+          .resize(
+            thumbnail().width(width).height(height).gravity(focusOn(face()))
+          )
+          .roundCorners(max());
+
+        return <AdvancedImage cldImg={transformedImage} />;
+      default:
+        transformedImage = myImage.resize(thumbnail().width(500).height(600));
+        return (
+          <button onClick={toggle}>
+            <AdvancedImage cldImg={transformedImage} />
+          </button>
+        );
     }
   }
 
