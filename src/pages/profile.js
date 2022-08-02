@@ -25,9 +25,6 @@ export function Profile() {
 
   return (
     <ProfileLayout>
-      <section className="fixed mx-auto">
-        <div>Intro</div>
-      </section>
       <section>
         <InfiniteScroll
           dataLength={feeds.length}

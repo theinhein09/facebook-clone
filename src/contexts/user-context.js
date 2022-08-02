@@ -19,10 +19,6 @@ export function UserContextProvider({ children }) {
     Auth.onAuthStateChanged(fetchUser, { on, off });
   }, [on, off]);
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <UserContextState.Provider value={{ user, loading }}>
       <UserContextUpdater.Provider value={setUser}>

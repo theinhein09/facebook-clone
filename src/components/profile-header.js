@@ -15,7 +15,7 @@ export function ProfileHeader({ user, actionsBar }) {
     <>
       <section className="mx-auto w-full bg-white shadow">
         <div className="mx-auto h-56 max-w-6xl bg-gradient-to-t from-black to-neutral-300 md:h-96 md:rounded-b-xl"></div>
-        <div className="mx-auto -mt-7 flex max-w-6xl items-end px-10">
+        <div className="mx-auto -mt-7 flex max-w-6xl items-end px-1 md:px-10">
           <div className="relative">
             <button
               onClick={toggleProfilePicMenu}
@@ -60,7 +60,7 @@ export function ProfileHeader({ user, actionsBar }) {
           <div>{actionsBar}</div>
         </div>
         <hr className="my-4 mx-auto max-w-5xl" />
-        <div className="mx-auto max-w-6xl px-10">
+        <div className="mx-auto max-w-6xl px-1 md:px-10">
           <nav>
             <NavLink to={`/${user.id}/posts`}>
               {({ isActive }) => (
