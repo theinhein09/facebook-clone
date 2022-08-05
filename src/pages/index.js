@@ -121,7 +121,7 @@ export function Feed({ feed }) {
       <hr className="mb-2" />
       <h2 className="px-1 py-1 text-sm">{feed.text}</h2>
       <section className="flex gap-2 bg-black" id={feed.id}>
-        {feed.media.length !==0 && feed.media.map((image) => (
+        {feed.media && feed.media.map((image) => (
           <div key={image} role="presentation" className="mx-auto flex w-fit">
             <Image publicId={image} />
           </div>
